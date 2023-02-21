@@ -7,3 +7,5 @@ yarn.lock
 bin/
 config.json
 database.sqlite
+profileImages/
+!profileImages/__default.png
