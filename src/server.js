@@ -180,6 +180,11 @@ async function serve() {
         })
     })
 
+    app.post('/api/images/v*/profile', async (req, res) => {
+        await require("./image.js").setPFP(uid, req)
+        res.sendStatus(200);
+    })
+
     app.post(`/api/settings/v2/set`, async (req, res) => {
         await require("./settings.js").setSetting(uid, req)
         res.send("[]")

@@ -17,6 +17,7 @@ function start(){
 }
 
 function serve() {
+
     app.get('/', (req, res) => {
         res.send("<p>LunarRec CDN server</p>")
     })
@@ -24,8 +25,13 @@ function serve() {
         Right now this only sends the users profile picture, as that is all the CDN appears to be used for in the context of 2017.
         The posters are still a big issue that i want to tackle, i just don't know how because it doesn't make any requests to the CDN for poster data.
     */
-    app.get('/*', (req, res) => {
-        res.sendFile(path.resolve(`${__dirname}/../profileImages/__default.png`))
+    app.get('/img/:id', (req, res) => {
+        const id = req.params.id.match(/\d+/)[0]; // extract the numbers using regex
+        try {
+            res.sendFile(path.resolve(`${__dirname}/../profileImages/${id}.png`))
+        } catch(e) {
+            res.sendStatus(404)
+        }
     })
     
     app.listen(port, () => {
