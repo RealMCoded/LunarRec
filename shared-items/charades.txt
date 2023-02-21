@@ -1,0 +1,12 @@
+// place sentences or words in here
+// separated by new lines
+// lines starting with "//" are ignored.
+Rec Room
+Roblox
+Minecraft Steve
+Meta Quest 2
+gribbly
+Tree
+Fruit
+MR BEAST!!!!!!
+Touching Grass

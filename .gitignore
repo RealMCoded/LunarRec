@@ -1,0 +1,9 @@
+# package files
+node_modules/
+package-lock.json
+yarn.lock
+
+#generated files
+bin/
+config.json
+database.sqlite

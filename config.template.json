@@ -1,0 +1,10 @@
+{
+    "serverAddress":"http://localhost",
+    "ports":{
+        "API":2017,
+        "WS":20161,
+        "IMG":20182
+    },
+    "webhook":"",
+    "motdType":"VERSION"
+}
