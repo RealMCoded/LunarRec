@@ -18,6 +18,7 @@ async function start() {
 
     require('./src/server.js').start()
 	require('./src/server_WS.js').start()
+	require('./src/server_CDN.js').start()
 }
 
 start()
