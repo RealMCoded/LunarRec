@@ -78,6 +78,22 @@ async function serve() {
         res.send(JSON.stringify(body))
     })
 
+    app.get(`/api/players/v1/blockduration`, async (req, res) => {
+        res.send("[]")
+    })
+
+    app.get(`/api/gamesessions/v1/*`, async (req, res) => {
+        res.send("[]")
+    })
+
+    app.get(`/api/players/v1/phonelastfour`, async (req, res) => {
+        res.send("2419")
+    })
+
+    app.get(`/api/players/v1/search/*`, async (req, res) => {
+        res.sendStatus(404)
+    })
+
     app.get(`/api/avatar/v2`, async (req, res) => {
         let body = await require("./avatar.js").loadAvatar(uid)
         res.send(body)
@@ -167,6 +183,11 @@ async function serve() {
     app.post(`/api/settings/v2/set`, async (req, res) => {
         await require("./settings.js").setSetting(uid, req)
         res.send("[]")
+    })
+
+    app.post(`/api/players/v2/displayname`, async (req, res) => {
+        let newname = await require("./datamanager.js").setName(uid, req)
+        res.send(JSON.stringify({Success: true, Message: `Name changed to "${newname}"!`}))
     })
 
     app.post(`/api/avatar/v2/set`, async (req, res) => {

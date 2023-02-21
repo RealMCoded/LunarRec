@@ -17,4 +17,15 @@ async function getProfile(uid) {
     return makeUserJSONFromDB(userdata);
 }
 
-module.exports = { getProfile }
+async function setName(uid, req) {
+    let data = await require("./decodeRequest.js").decodeRequest(req)
+    data = data.slice(5)
+    console.log(data)
+
+    let userdata  = await db.findOne({ where: {id: uid} })
+
+    userdata.update({ username: data, display_name: data })
+    return data;
+}
+
+module.exports = { getProfile, setName }
