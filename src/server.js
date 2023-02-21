@@ -6,11 +6,13 @@ const path = require("path")
 const fs = require("fs")
 app.use(morgan(`${chalk.green("[API]")} :method ":url" :status - :response-time ms`))
 
+const { targetVersion, ports } = require("../config.json")
+
 let port, uid;
 
 uid = 0
 
-port = 2017
+port = ports.API
 
 async function start() {
     try {
@@ -43,7 +45,7 @@ async function serve() {
         res.send(JSON.stringify({
             name: "LunarRec",
             description: "LunarRec Server",
-            targetVersion: "2017_EA",
+            targetVersion: targetVersion,
             ping: 0,
             users:{
                 registered:0,
@@ -57,7 +59,17 @@ async function serve() {
      */
 
     app.get('/api/versioncheck/*', (req, res) => {
-        res.send("{\"ValidVersion\":true}")
+        let rrversion = req.headers['x-rec-room-version']
+        //console.log(rrversion)
+        if(targetVersion != null) {
+            if (rrversion == targetVersion){
+                res.send("{\"ValidVersion\":true}")
+            } else {
+                res.sendStatus(404)
+            }
+        } else {
+            res.send("{\"ValidVersion\":true}")
+        }
     })
 
     app.get(`/api/players/v1/*`, async (req, res) => {
