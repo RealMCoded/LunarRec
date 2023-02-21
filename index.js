@@ -1,6 +1,5 @@
 const chalk = require('chalk')
 const Sequelize = require('sequelize');
-const { random } = require("./util.js")
 
 console.log(`   ${chalk.blue("LunarRec")}\n==============`)
 
