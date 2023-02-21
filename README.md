@@ -6,9 +6,9 @@
 
 ## About LunarRec
 
-LunarRec is RecNet server replacement for old Rec Room builds that multiple people can connect to. 
+LunarRec is a RecNet server replacement for old Rec Room builds that multiple people can connect to. 
 
-This project is similar to OpenRec Live or OpenLabs.
+This project is similar to OpenRec Live or OpenLabs. If you're looking for a server that is more like OpenRec or Vault Server, check out [Rec.js](https://github.com/RealMCoded/Rec.js).
 
 ## Build support list
 
