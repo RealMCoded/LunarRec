@@ -1,5 +1,6 @@
 {
     "serverAddress":"http://localhost",
+    "targetVersion": null,
     "ports":{
         "API":2017,
         "WS":20161,
