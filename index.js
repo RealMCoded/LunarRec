@@ -1,7 +1,13 @@
 const chalk = require('chalk')
 const Sequelize = require('sequelize');
+const child_process = require('child_process')
+const { version } = require("./package.json")
 
-console.log(`   ${chalk.blue("LunarRec")}\n==============`)
+try{process.commit = child_process.execSync('git rev-parse HEAD').toString().substring(0, 7)} catch(e) {process.commit = "[git not installed]"}
+
+let versionStr = ` Version ${version} (commit ${process.commit})`
+
+console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.blue("LunarRec")}\n${versionStr}\n${"=".repeat(versionStr.length+1)}`)
 
 //Init DB
 const sequelize = new Sequelize('database', "", "", {

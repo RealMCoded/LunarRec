@@ -1,6 +1,6 @@
 {
   "name": "lunarrec",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Global RecNet server",
   "main": "index.js",
   "scripts": {
