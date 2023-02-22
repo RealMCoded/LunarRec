@@ -4,6 +4,7 @@
   "description": "A RecNet server replacement for old Rec Room builds that multiple people can connect to",
   "main": "index.js",
   "scripts": {
+    "run": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
