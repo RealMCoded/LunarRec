@@ -1,4 +1,10 @@
 {
+    "instance_info":{
+        "name": "LunarRec",
+        "description": "A LunarRec Instance",
+        "owner": "Instance Owner",
+        "website": "https://example.com"
+    },
     "serverAddress":"http://localhost",
     "targetVersion": null,
     "ports":{

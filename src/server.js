@@ -6,7 +6,7 @@ const path = require("path")
 const fs = require("fs")
 app.use(morgan(`${chalk.green("[API]")} :method ":url" :status - :response-time ms`))
 
-const { targetVersion, ports, serverAddress } = require("../config.json")
+const { targetVersion, ports, serverAddress, instance_info } = require("../config.json")
 
 let port, uid;
 
@@ -43,8 +43,10 @@ async function serve() {
 
     app.get('/api/stats', (req, res) => {
         res.send(JSON.stringify({
-            name: "LunarRec",
-            description: "LunarRec Server",
+            name: instance_info.name,
+            description: instance_info.description,
+            owner: instance_info.owner,
+            website: instance_info.website,
             targetVersion: targetVersion,
             ping: 0,
             users:{
