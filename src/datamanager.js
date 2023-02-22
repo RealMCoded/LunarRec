@@ -20,11 +20,10 @@ async function getProfile(uid) {
 async function setName(uid, req) {
     let data = await require("./decodeRequest.js").decodeRequest(req)
     data = data.slice(5)
-    console.log(data)
 
     let userdata  = await db.findOne({ where: {id: uid} })
 
-    userdata.update({ username: data, display_name: data })
+    userdata.update({ username: decodeURIComponent(data), display_name: decodeURIComponent(data).replace(/ /g,"_") })
     return data;
 }
 
