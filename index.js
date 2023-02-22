@@ -1,6 +1,7 @@
 const chalk = require('chalk')
 const Sequelize = require('sequelize');
 const child_process = require('child_process')
+const { sendWebhook } = require("./webhook.js")
 const { version } = require("./package.json")
 
 try{process.commit = child_process.execSync('git rev-parse HEAD').toString().substring(0, 7)} catch(e) {process.commit = "[git not installed]"}
@@ -21,6 +22,8 @@ process.db = require('./database.js')
 
 async function start() {
     await process.db.users.sync()
+
+	sendWebhook("✅ **This LunarRec instance has started!**")
 
     require('./src/server.js').start()
 	require('./src/server_WS.js').start()
