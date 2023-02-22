@@ -4,6 +4,7 @@ const morgan = require('morgan') //for webserver output
 const app = express()
 const path = require("path")
 const fs = require("fs")
+const { version } = require("../package.json")
 app.set('view engine', 'ejs');
 app.use(morgan(`${chalk.green("[API]")} :method ":url" :status - :response-time ms`))
 
@@ -54,8 +55,12 @@ async function serve() {
             targetVersion: targetVersion,
             ping: Date.now() - start,
             users:{
-                registered:0,
-                online:0
+                registered:undefined,
+                online:undefined
+            },
+            server_version:{
+                version:version,
+                commit:process.commit
             }
         })
     })
