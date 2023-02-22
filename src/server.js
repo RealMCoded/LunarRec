@@ -40,8 +40,23 @@ async function serve() {
 
     //Return some server stats when pinging just the IP
     app.get('/', (req, res) => {
+        const start = Date.now();
         if (hostPage == false) return res.send("<h1>This instance host has disabled their webpage.</h1>")
-        res.render('index', {instanceName: "PLACEHOLDER", instanceDescription: "PLACEHOLDER"});
+        res.render('index', {
+            name: instance_info.name,
+            description: instance_info.description,
+            owner: instance_info.owner,
+            targetVersion: targetVersion ?? "any early Rec Room build",
+            ping: Date.now() - start,
+            users:{
+                registered:undefined,
+                online:undefined
+            },
+            server_version:{
+                version:version,
+                commit:process.commit
+            }
+        });
     })
 
     //Misc server info
