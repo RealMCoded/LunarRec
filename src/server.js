@@ -1,3 +1,5 @@
+const { targetVersion, ports, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
+
 const chalk = require('chalk')
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
@@ -5,10 +7,8 @@ const app = express()
 const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
-app.set('view engine', 'ejs');
-app.use(morgan(`${chalk.green("[API]")} :method ":url" :status - :response-time ms`))
-
-const { targetVersion, ports, serverAddress, instance_info, hostPage } = require("../config.json")
+if (hostPage) app.set('view engine', 'ejs');
+if (logConnections) app.use(morgan(`${chalk.green("[API]")} :remote-addr :method ":url" :status - :response-time ms`))
 
 let port, uid;
 
@@ -174,11 +174,16 @@ async function serve() {
     })
 
     app.get('/img/:id', (req, res) => {
-        const id = req.params.id.match(/\d+/)[0]; // extract the image ID with this regex
         try {
-            res.sendFile(path.resolve(`${__dirname}/../profileImages/${id}.png`))
+            const id = req.params.id.match(/\d+/)[0]; // extract the image ID with this regex
+            const filedir = `${__dirname}/../profileImages/${id}.png`
+            if (fs.existsSync(filedir)) {
+                res.sendFile(path.resolve(filedir))
+            } else {
+                res.sendStatus(404)
+            }
         } catch(e) {
-            res.sendStatus(404)
+            res.sendStatus(500)
         }
     })
 

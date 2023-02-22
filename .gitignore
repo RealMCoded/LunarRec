@@ -9,3 +9,6 @@ config.json
 database.sqlite
 profileImages/
 !profileImages/__default.png
+
+#misc
+ngrok.exe

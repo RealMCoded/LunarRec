@@ -6,12 +6,12 @@
         "owner": "Instance Owner",
         "website": "https://example.com"
     },
+    "logConnections": false,
     "serverAddress":"http://localhost",
     "targetVersion": null,
     "ports":{
         "API":2017,
         "WS":20161
     },
-    "webhook":"",
-    "motdType":"VERSION"
+    "webhook":""
 }
