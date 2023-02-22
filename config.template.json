@@ -10,8 +10,7 @@
     "targetVersion": null,
     "ports":{
         "API":2017,
-        "WS":20161,
-        "IMG":20182
+        "WS":20161
     },
     "webhook":"",
     "motdType":"VERSION"
