@@ -4,9 +4,10 @@ const morgan = require('morgan') //for webserver output
 const app = express()
 const path = require("path")
 const fs = require("fs")
+app.set('view engine', 'ejs');
 app.use(morgan(`${chalk.green("[API]")} :method ":url" :status - :response-time ms`))
 
-const { targetVersion, ports, serverAddress, instance_info } = require("../config.json")
+const { targetVersion, ports, serverAddress, instance_info, hostPage } = require("../config.json")
 
 let port, uid;
 
@@ -38,22 +39,25 @@ async function serve() {
 
     //Return some server stats when pinging just the IP
     app.get('/', (req, res) => {
-        res.send("<p>✅ This LunarRec instance is running!<br><br>Ping: <b>PLACEHOLDER</b><br><br>There are <b>PLACEHOLDER</b> users registered and <b>PLACEHOLDER</b> users online.</p>")
+        if (hostPage == false) return res.send("<h1>This instance host has disabled their webpage.</h1>")
+        res.render('index', {instanceName: "fuck", instanceDescription: "fucker"});
     })
 
+    //Misc server info
     app.get('/api/stats', (req, res) => {
-        res.send(JSON.stringify({
+        const start = Date.now();
+        res.json({
             name: instance_info.name,
             description: instance_info.description,
             owner: instance_info.owner,
             website: instance_info.website,
             targetVersion: targetVersion,
-            ping: 0,
+            ping: Date.now() - start,
             users:{
                 registered:0,
                 online:0
             }
-        }))
+        })
     })
 
     /**

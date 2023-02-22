@@ -1,4 +1,5 @@
 {
+    "hostPage": true,
     "instance_info":{
         "name": "LunarRec",
         "description": "A LunarRec Instance",
