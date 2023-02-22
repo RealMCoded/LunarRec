@@ -40,7 +40,7 @@ async function serve() {
     //Return some server stats when pinging just the IP
     app.get('/', (req, res) => {
         if (hostPage == false) return res.send("<h1>This instance host has disabled their webpage.</h1>")
-        res.render('index', {instanceName: "fuck", instanceDescription: "fucker"});
+        res.render('index', {instanceName: "PLACEHOLDER", instanceDescription: "PLACEHOLDER"});
     })
 
     //Misc server info
