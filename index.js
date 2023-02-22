@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const chalk = require('chalk')
 const Sequelize = require('sequelize');
 const child_process = require('child_process')
