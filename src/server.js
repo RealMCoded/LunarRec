@@ -46,7 +46,7 @@ async function serve() {
             name: instance_info.name,
             description: instance_info.description,
             owner: instance_info.owner,
-            targetVersion: targetVersion ?? "any early Rec Room build",
+            targetVersion: targetVersion ?? "any Rec Room build (pre-December 2018)",
             ping: Date.now() - start,
             users:{
                 registered:undefined,
