@@ -11,7 +11,7 @@ function makeUserJSONFromDB(userdata) {
         "Level": userdata.level,
         "Reputation": userdata.reputation,
         "Verified": true,
-        "Developer": true,
+        "Developer": userdata.isDev,
         "HasEmail": true,
         "CanReceiveInvites": false,
         "ProfileImageName": userdata.id,

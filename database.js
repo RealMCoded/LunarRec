@@ -39,6 +39,14 @@ const users = sequelize.define('users', {
     type: Sequelize.INTEGER,
     defaultValue: 0
   },
+  session:{
+    type: Sequelize.STRING,
+    defaultValue: null
+  },
+  isDev:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  }
 });
 
 module.exports = { users }
