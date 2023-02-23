@@ -13,5 +13,8 @@
         "API":2017,
         "WS":20161
     },
-    "webhook":""
+    "webhook":{
+        "console": "",
+        "reports": ""
+    }
 }
