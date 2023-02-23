@@ -30,7 +30,7 @@ async function serve() {
         var head = req.headers;
         try {
             uid = head.authorization.slice(7)
-            console.log(uid)
+            //console.log(uid)
         } catch(e) {
 
         }
@@ -41,7 +41,7 @@ async function serve() {
     //Return some server stats when pinging just the IP
     app.get('/', (req, res) => {
         const start = Date.now();
-        if (hostPage == false) return res.send("<h1>This instance host has disabled their webpage.</h1>")
+        if (hostPage == false) return res.send("<center><br><br><br><br><br><h1>This instance host has disabled their webpage.</h1></center>")
         res.render('index', {
             name: instance_info.name,
             description: instance_info.description,
