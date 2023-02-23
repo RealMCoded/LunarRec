@@ -104,11 +104,19 @@ async function serve() {
         res.send(JSON.stringify(body))
     })
 
+    app.get(`/api/players/v1/list`, async (req, res) => {
+        res.send("[]")
+    })
+
     app.get(`/api/players/v1/blockduration`, async (req, res) => {
         res.send("[]")
     })
 
     app.get(`/api/gamesessions/v1/*`, async (req, res) => {
+        res.send("[]")
+    })
+
+    app.get(`/api/events/v*/list`, async (req, res) => {
         res.send("[]")
     })
 
@@ -118,6 +126,14 @@ async function serve() {
 
     app.get(`/api/players/v1/search/*`, async (req, res) => {
         res.sendStatus(404)
+    })
+
+    app.get('/api/config/v1/amplitude', (req, res) => {
+        res.send(JSON.stringify({AmplitudeKey: "NoKeyProvided"}))
+    })
+
+    app.get('/api/PlayerReporting/v1/moderationBlockDetails', (req, res) => {
+        res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
     })
 
     app.get(`/api/avatar/v2`, async (req, res) => {
@@ -238,6 +254,16 @@ async function serve() {
     app.post(`/api/avatar/v2/set`, async (req, res) => {
         await require("./avatar.js").saveAvatar(uid, req)
         res.send("[]")
+    })
+
+    app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
+        const ses = await require("./sessions.js").joinRandom(uid, req)
+        res.send(ses)
+    })
+
+    app.post(`/api/gamesessions/v2/create`, async (req, res) => {
+        const ses = await require("./sessions.js").create(uid, req)
+        res.send(ses)
     })
 
     app.listen(port, () => {
