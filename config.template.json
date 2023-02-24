@@ -9,10 +9,7 @@
     "logConnections": false,
     "serverAddress":"http://localhost",
     "targetVersion": null,
-    "ports":{
-        "API":2017,
-        "WS":20161
-    },
+    "port": 2017,
     "webhook":{
         "console": "",
         "reports": ""

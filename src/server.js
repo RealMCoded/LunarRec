@@ -1,8 +1,10 @@
 const { targetVersion, ports, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
+const db = process.db.users
 
 const chalk = require('chalk')
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
+const WebSocket = require('ws');
 const app = express()
 const path = require("path")
 const fs = require("fs")
@@ -266,9 +268,64 @@ async function serve() {
         res.send(ses)
     })
 
-    app.listen(port, () => {
-        console.log(`${chalk.green("[API]")} API started on port ${port}`)
+    const server = app.listen(port, () => {
+        console.log(`${chalk.gray("[INFO]")} Server started on port ${port}`)
     })
+
+    //WebSocket
+    const wss = new WebSocket.Server({ server });
+
+    wss.on('connection', async (ws) => {
+        //console.log(`${chalk.blueBright("[WS]")} Client connected!`);
+        ws.on('message', async (data) => {
+            console.log(`${chalk.blueBright("[WS]")} Data received: ${data}`);
+            let thing = await processRequest(data)
+            console.log(`${chalk.blueBright("[WS]")} Data sent: ${thing}`)
+            ws.send(thing)
+        });
+
+        ws.on('close', async () => {
+            //console.log(`${chalk.blueBright("[WS]")} Client disconnected.`);
+            
+        });
+    });
+
+    //console.log(`${chalk.blueBright("[WS]")} WS started on port ${port}`)
+}
+
+/*
+* WebSocket Process Request
+*/
+
+async function processRequest(data){
+    let result;
+
+    data = JSON.parse(data)
+
+    if (data.api != undefined) {
+        if (data.api == "playerSubscriptions/v1/update"){
+            console.log(`${chalk.blueBright("[WS]")} Presence update called!`)
+            var usr = db.findOne({ where: { id: data.param.PlayerIds[0] }})
+            var ses = usr.session
+            return JSON.stringify({
+                Id: 12, 
+                Msg: {
+                    PlayerId: data.param.PlayerIds[0],
+                    IsOnline: true,
+                    InScreenMode: false,
+                    GameSession: ses
+                }
+            });
+        }else if (data.api == "heartbeat2"){
+            result = JSON.stringify(data)
+        } else {
+            result = ""
+        }
+    } else {
+        result = JSON.stringify({"SessionId": 2017})
+    }
+
+    return result;
 }
 
 module.exports = { start }

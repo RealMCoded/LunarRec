@@ -26,8 +26,7 @@ async function start() {
 
 	sendWebhook("✅ **This LunarRec instance has started!**")
 
-    require('./src/server_API.js').start()
-	require('./src/server_WS.js').start()
+    require('./src/server.js').start()
 }
 
 start()
