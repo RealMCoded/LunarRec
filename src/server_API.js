@@ -248,7 +248,7 @@ async function serve() {
 
     app.post(`/api/players/v2/displayname`, async (req, res) => {
         let newname = await require("./datamanager.js").setName(uid, req)
-        res.send(JSON.stringify({Success: true, Message: `Name changed to "${newname}"!`}))
+        res.send(JSON.stringify(newname))
     })
 
     app.post(`/api/avatar/v2/set`, async (req, res) => {
