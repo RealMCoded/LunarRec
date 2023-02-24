@@ -1,4 +1,4 @@
-const { targetVersion, ports, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
+const { targetVersion, port, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
 const db = process.db.users
 
 const chalk = require('chalk')
@@ -12,11 +12,9 @@ const { version } = require("../package.json")
 if (hostPage) app.set('view engine', 'ejs');
 if (logConnections) app.use(morgan(`${chalk.green("[API]")} :remote-addr :method ":url" :status - :response-time ms`))
 
-let port, uid;
+let uid;
 
 uid = 0
-
-port = ports.API
 
 async function start() {
     try {
