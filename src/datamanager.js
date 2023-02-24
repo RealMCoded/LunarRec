@@ -23,11 +23,13 @@ async function setName(uid, req) {
 
     let userdata  = await db.findOne({ where: {id: uid} })
 
+    newname = decodeURIComponent(data)
+
     try {
         await userdata.update({ username: decodeURIComponent(data), display_name: decodeURIComponent(data).replace(/ /g,"_") })
-        return {Success: false, Message: `Name changed to "${newname}"! Changes will be visible when going to a new room.`};
+        return {Success: false, Message: `Name changed to "${newname}"! Changes will be visible when client is restarted.`};
     } catch(e) {
-        if (error.name === 'SequelizeUniqueConstraintError') {
+        if (e.name === 'SequelizeUniqueConstraintError') {
             return {Success: false, Message: `Name "${newname}" is already in use!`};
         } else {
             return {Success: false, Message: `Failed to set name to "${newname}".`};
