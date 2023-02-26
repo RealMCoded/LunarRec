@@ -10,16 +10,21 @@ LunarRec is a RecNet server replacement for old Rec Room builds that multiple pe
 
 This project is similar to OpenRec Live or OpenLabs. If you're looking for a server that is more like OpenRec or Vault Server, check out [Rec.js](https://github.com/RealMCoded/Rec.js).
 
-## Build support list
+## Features
 
-| Year | Supported | Tested Builds                  | Notes                                             |
-|------|-----------|--------------------------------|---------------------------------------------------|
-| 2016 | ✅         | December 23rd 2016           |                                                   |
-| 2017 | ✅         | January to October 10th 2017 | The computer does not work properly.              |
-| 2018 | ❌         |                              |                                                   |
-| 2019 | ❌         |                              | Support for this might never be officially added. |
-| 2020 | ❌         |                              | Support for this might never be officially added. |
-| 2021 | ❌         |                              | Support for this might never be officially added. |
-| 2022 | ❌         |                              | Support for this might never be officially added. |
-| 2023 | ❌         |                              | Support for this might never be officially added. |
+- Free & Open Source (under the [GNU General Public License v3.0](./LICENSE) license).
+
+- Fast & Efficient (depending on the hardware).
+
+- Uses a SQLite database to store user data.
+
+- Restrict connections to one version.
+
+- Host your own customizable webpage to show server stats with [ejs](https://ejs.co/)! (Can be toggled)
+
+- Public API that shows Instance Name, Instance Description, Instance Host, Instance Owner, Target Version, ping, Registered Users, Online Users, Server Version.
+
+## Setup
+
+*soon*
 
