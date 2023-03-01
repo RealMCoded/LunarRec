@@ -20,7 +20,7 @@ This project is similar to OpenRec Live or OpenLabs. If you're looking for a ser
 
 - Restrict connections to one version.
 
-- Host your own customizable webpage to show server stats with [ejs](https://ejs.co/)! (Can be toggled)
+- Host your own customizable webpage to show server stats with [ejs](https://ejs.co/)! (Can be turned off in the config)
 
 - Public API that shows Instance Name, Instance Description, Instance Host, Instance Owner, Target Version, ping, Registered Users, Online Users, Server Version.
 
