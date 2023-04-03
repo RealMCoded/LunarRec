@@ -1,4 +1,5 @@
-
+const db = process.db.users
+const { Op } = require('sequelize');
 
 async function getPlayerArray(req){
     let json, resp;
@@ -12,4 +13,12 @@ async function getPlayerArray(req){
     }
 }
 
-module.exports = { getPlayerArray }
+async function getOnlinePlayers(){
+    return await db.count({where: {session:{[Op.not]: null}}})
+}
+
+async function getPlayerTotal(){
+    return await db.count()
+}
+
+module.exports = { getPlayerArray, getPlayerTotal, getOnlinePlayers }

@@ -9,6 +9,7 @@ const app = express()
 const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
+const {getPlayerTotal, getOnlinePlayers} = require("./players.js")
 if (hostPage) app.set('view engine', 'ejs');
 if (logConnections) app.use(morgan(`${chalk.green("[API]")} :remote-addr :method ":url" :status - :response-time ms`))
 
@@ -39,7 +40,7 @@ async function serve() {
     })
 
     //Return some server stats when pinging just the IP
-    app.get('/', (req, res) => {
+    app.get('/', async (req, res) => {
         const start = Date.now();
         if (hostPage == false) return res.send("<center><br><br><br><br><br><h1>This instance host has disabled their webpage.</h1></center>")
         res.render('index', {
@@ -49,8 +50,8 @@ async function serve() {
             targetVersion: targetVersion ?? "any Rec Room build (pre-December 2018)",
             ping: Date.now() - start,
             users:{
-                registered:undefined,
-                online:undefined
+                registered: await getPlayerTotal(),
+                online: await getOnlinePlayers()
             },
             server_version:{
                 version:version,
@@ -60,7 +61,7 @@ async function serve() {
     })
 
     //Misc server info
-    app.get('/api/stats', (req, res) => {
+    app.get('/api/stats', async (req, res) => {
         const start = Date.now();
         res.json({
             name: instance_info.name,
@@ -70,8 +71,8 @@ async function serve() {
             targetVersion: targetVersion,
             ping: Date.now() - start,
             users:{
-                registered:undefined,
-                online:undefined
+                registered: await getPlayerTotal(),
+                online: await getOnlinePlayers()
             },
             server_version:{
                 version:version,
