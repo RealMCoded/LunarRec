@@ -1,0 +1,7 @@
+{
+    "__NOTE": "This file is used to store console colours used by chalk. you may redefine them if you wish.",
+    "logo":"#052482",
+    "info": "#767676",
+    "warn": "#FFFF00",
+    "error": "#FF0000"
+}
