@@ -6,11 +6,14 @@ const { sendWebhook } = require("./webhook.js")
 const { version } = require("./package.json")
 const fs = require('fs');
 
+//load colors
+process.colors = require('./colors.json')
+
 try{process.commit = child_process.execSync('git rev-parse HEAD').toString().substring(0, 7)} catch(e) {process.commit = "[git not installed]"}
 
 let versionStr = ` Version ${version} (commit ${process.commit})`
 
-console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.blue("LunarRec")}\n${versionStr}\n${"=".repeat(versionStr.length+1)}`)
+console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.hex(process.colors.logo)("LunarRec")}\n${versionStr}\n${"=".repeat(versionStr.length+1)}`)
 
 //Reset data command
 if (process.argv[2] == "reset"){
@@ -34,21 +37,14 @@ if (process.argv[2] == "reset"){
 }
 
 //Init DB
-const sequelize = new Sequelize('database', "", "", {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
 process.db = require('./database.js')
 
 async function start() {
     await process.db.users.sync()
 
-	sendWebhook("✅ **This LunarRec instance has started!**")
-
     require('./src/server.js').start()
+
+	sendWebhook("✅ **This LunarRec instance has started!**")
 }
 
 start()
