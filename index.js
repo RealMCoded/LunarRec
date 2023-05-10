@@ -5,6 +5,7 @@ const child_process = require('child_process')
 const { sendWebhook } = require("./webhook.js")
 const { version } = require("./package.json")
 const fs = require('fs');
+const { discord_bot } = require("./config.json")
 
 //load colors
 process.colors = require('./colors.json')
@@ -41,6 +42,15 @@ process.db = require('./database.js')
 
 async function start() {
     await process.db.users.sync()
+
+	if (discord_bot.enabled) {
+		console.log(`${chalk.hex(process.colors.discord)("[BOT]]")} Discord bot enabled!`)
+		//push commands
+		require(`./src/bot/deploy.js`)
+
+		//start the uhhh bot
+		require('./src/bot/index.js')
+	}
 
     require('./src/server.js').start()
 
