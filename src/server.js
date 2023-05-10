@@ -9,7 +9,7 @@ const app = express()
 const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
-const {getPlayerTotal, getOnlinePlayers} = require("./players.js")
+const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
 if (hostPage) app.set('view engine', 'ejs');
 if (logConnections) app.use(morgan(`${chalk.green("[API]")} :remote-addr :method ":url" :status - :response-time ms`))
 
@@ -178,7 +178,7 @@ async function serve() {
     app.get('/api/config/v2', (req, res) => {
         res.send(JSON.stringify({
             MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
-            CdnBaseUri: `${serverAddress}:${port}/`,
+            CdnBaseUri: `${serverAddress}/`,
             LevelProgressionMaps:[{"Level":0,"RequiredXp":1},{"Level":1,"RequiredXp":2},{"Level":2,"RequiredXp":3},{"Level":3,"RequiredXp":4},{"Level":4,"RequiredXp":5},{"Level":5,"RequiredXp":6},{"Level":6,"RequiredXp":7},{"Level":7,"RequiredXp":8},{"Level":8,"RequiredXp":9},{"Level":9,"RequiredXp":10},{"Level":10,"RequiredXp":11},{"Level":11,"RequiredXp":12},{"Level":12,"RequiredXp":13},{"Level":13,"RequiredXp":14},{"Level":14,"RequiredXp":15},{"Level":15,"RequiredXp":16},{"Level":16,"RequiredXp":17},{"Level":17,"RequiredXp":18},{"Level":18,"RequiredXp":19},{"Level":19,"RequiredXp":20},{"Level":20,"RequiredXp":21}],
             MatchmakingParams:{
                 PreferFullRoomsFrequency: 1,
@@ -255,6 +255,11 @@ async function serve() {
     app.post(`/api/avatar/v2/set`, async (req, res) => {
         await require("./avatar.js").saveAvatar(uid, req)
         res.send("[]")
+    })
+
+    app.post(`/api/players/v1/list`, async (req, res) => {
+        let resp = await getPlayerArray(req)
+        res.send(resp)
     })
 
     app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {

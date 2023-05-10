@@ -2,15 +2,20 @@ const db = process.db.users
 const { Op } = require('sequelize');
 
 async function getPlayerArray(req){
-    let json, resp;
+    let json;
     json = await require("./decodeRequest.js").decodeRequest(req)
     json = JSON.parse(json)
+
+    let response = new Array;
 
     console.log(json)
 
     for(const plr in json){
-        //let userdata = await db.findOne({ where: {id: uid} })
+        let userdata = await db.findOne({ where: {id: plr} })
+        response.push(userdata)
     }
+
+    return response
 }
 
 async function getOnlinePlayers(){

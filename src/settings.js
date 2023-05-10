@@ -14,7 +14,7 @@ async function setSetting(uid, req) {
     let currentSettings = JSON.parse(userdata.settings)
     for(const element of currentSettings){
         if (element.Key == json.Key){
-            //console.log(`${chalk.green("[API]")} User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
+            console.log(`[API] User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
             element.Value = json.Value
         }
     }
