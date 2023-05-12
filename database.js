@@ -49,4 +49,14 @@ const users = sequelize.define('users', {
   }
 });
 
-module.exports = { users }
+const rooms = sequelize.define('rooms', {
+  name:{
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  creator:{
+    type: Sequelize.STRING,
+  }
+})
+
+module.exports = { users, rooms }
