@@ -12,7 +12,7 @@ This project is similar to OpenRec Live or OpenLabs. If you're looking for a ser
 
 ## Features
 
-- Free & Open Source (under the [GNU General Public License v3.0](./LICENSE) license).
+- Free & Open Source (under the [GNU Affero General Public License v3.0](./LICENSE) license).
 
 - Fast & Efficient (depending on the hardware).
 

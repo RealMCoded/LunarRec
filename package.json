@@ -12,7 +12,7 @@
     "recroom"
   ],
   "author": "stuartt-mcoded",
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0",
   "dependencies": {
     "chalk": "^4.1.2",
     "discord.js": "^14.9.0",

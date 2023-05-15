@@ -7,8 +7,10 @@ yarn.lock
 bin/
 config.json
 database.sqlite
-profileImages/
+profileImages/*
 !profileImages/__default.png
+rooms/*
+!rooms/.gitkeep
 
 #misc
 ngrok.exe
