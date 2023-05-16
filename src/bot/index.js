@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, ActivityType } = require('discord.js');
 const { discord_bot } = require('../../config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -17,6 +17,19 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log(`[BOT] Bot logged in as ${client.user.tag}!`);
+
+	let stat;
+	switch (discord_bot.status.type) {
+		case "PLAYING": stat = ActivityType.Playing; break;
+		case "WATCHING": stat = ActivityType.Watching; break;
+		case "LISTENING": stat = ActivityType.Listening; break;
+		case "COMPETING": stat = ActivityType.Competing; break;
+		default: stat = null; break;
+	}
+
+	if (stat != null) {
+		client.user.setActivity(discord_bot.status.activity, { type: stat });
+	}
 });
 
 client.on('interactionCreate', async interaction => {
