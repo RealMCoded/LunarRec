@@ -13,5 +13,16 @@
     "webhook":{
         "console": "",
         "reports": ""
+    },
+    "discord_bot":{
+        "enabled": false,
+        "token":"TOKEN.HERE",
+        "clientID":"1234567890",
+        "serverID":"1234567890",
+        "instanceOwnerID":"284804878604435476",
+        "status": {
+            "type": "PLAYING",
+            "activity": "LunarRec"
+        }
     }
 }
