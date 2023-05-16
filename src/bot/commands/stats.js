@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { instance_info, targetVersion } = require("../../../config.json")
 const { version } = require("../../../package.json")
-const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("../../players.js")
+const {getPlayerTotal, getOnlinePlayers} = require("../../players.js")
 
 module.exports = {
 	data: new SlashCommandBuilder()
