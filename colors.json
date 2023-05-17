@@ -4,5 +4,7 @@
     "discord": "#7289da",
     "info": "#767676",
     "warn": "#FFFF00",
-    "error": "#FF0000"
+    "error": "#FF0000",
+    "api": "#13a10e",
+    "ws": "#3973f5"
 }
