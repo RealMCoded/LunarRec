@@ -24,6 +24,8 @@ This project is similar to OpenRec Live or OpenLabs. If you're looking for a ser
 
 - Public API that shows Instance Name, Instance Description, Instance Host, Instance Owner, Target Version, ping, Registered Users, Online Users, Server Version.
 
+- Hostable Discord bot to show server information and user stats!
+
 ## Setup
 
 *soon*
