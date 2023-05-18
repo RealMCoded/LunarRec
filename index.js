@@ -5,6 +5,8 @@ const child_process = require('child_process')
 const { sendWebhook } = require("./webhook.js")
 const { version } = require("./package.json")
 const fs = require('fs');
+const { discord_bot } = require("./config.json")
+const { LogType, log } = require("./src/logger.js")
 
 //load colors
 process.colors = require('./colors.json')
@@ -18,13 +20,13 @@ console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.hex(p
 //Reset data command
 if (process.argv[2] == "reset"){
 	try {
-		console.log("Deleting Database...")
+		log(LogType.Info, "Deleting Database...")
 		fs.unlinkSync("./database.sqlite")
 	} catch(e){
-		console.log("Database file never existed to start with!")
+		log(LogType.Error, `Something bad happened while erasing the database. If the database never existed, this is expected.\n\n${e}`)
 	}
 
-	console.log("Deleting Profile Images...")
+	log(LogType.Info, "Deleting Profile Images...")
 	let dir = "./profileImages/"
 	const files = fs.readdirSync(dir);
 	files.forEach((file) => {
@@ -32,7 +34,7 @@ if (process.argv[2] == "reset"){
 		fs.unlinkSync(`${dir}/${file}`);
 	});
 
-	console.log("Data Reset Complete.")
+	log(LogType.Info, "Reset complete!")
 	process.exit()
 }
 
@@ -41,6 +43,15 @@ process.db = require('./database.js')
 
 async function start() {
     await process.db.users.sync()
+
+	if (discord_bot.enabled) {
+		log(LogType.Bot, "Discord Bot enabled!")
+		//push commands
+		require(`./src/bot/deploy.js`)
+
+		//start the uhhh bot
+		require('./src/bot/index.js')
+	}
 
     require('./src/server.js').start()
 
