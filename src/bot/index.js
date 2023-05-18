@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits, ActivityType } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, ActivityType, codeBlock } = require('discord.js');
 const { discord_bot } = require('../../config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -43,7 +43,7 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.reply({ content: `❌ **There was an error while executing this command!**\n${codeBlock("json",error)}`, ephemeral: true });
 	}
 });
 

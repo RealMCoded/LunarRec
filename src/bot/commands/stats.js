@@ -6,7 +6,7 @@ const {getPlayerTotal, getOnlinePlayers} = require("../../players.js")
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stats')
-		.setDescription(`Get stats about the server!`),
+		.setDescription(`Get stats about this LunarRec instance!`),
 	async execute(interaction) {
 		var users = {
 			registered: await getPlayerTotal(),
