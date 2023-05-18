@@ -1,3 +1,5 @@
+const { LogType, log } = require("./logger.js")
+
 const db = process.db.users
 
 async function loadSettings(uid){
@@ -14,7 +16,7 @@ async function setSetting(uid, req) {
     let currentSettings = JSON.parse(userdata.settings)
     for(const element of currentSettings){
         if (element.Key == json.Key){
-            console.log(`[API] User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
+            log(LogType.API, `User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
             element.Value = json.Value
         }
     }

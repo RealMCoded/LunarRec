@@ -16,11 +16,11 @@ const LogType = {
 }
 
 /***
- * console.log but prettier
+ * log but no console output
  * @param {Enumerator<LogType>} type - The Type of message to log
  * @param {string} message - The message to log
  */
-function log(type, message) {
+function log_raw(type, message) {
     let msg_format;
     switch(type) {
         case 0: { msg_format = `${chalk.hex(colors.info)("[INFO]")} ${message}` } break;
@@ -32,9 +32,18 @@ function log(type, message) {
         default: { msg_format = `[UNKNOWN TYPE "${type}"] ${message}` } break;
     }
 
-    console.log(msg_format)
+    return msg_format;
+}
+
+/***
+ * console.log but prettier
+ * @param {Enumerator<LogType>} type - The Type of message to log
+ * @param {string} message - The message to log
+ */
+function log(type, message) {
+    console.log(log_raw(type, message))
 
     return message;
 }
 
-module.exports = { LogType, log }
+module.exports = { LogType, log, log_raw }

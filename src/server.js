@@ -10,8 +10,9 @@ const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
+const { LogType, log, log_raw } = require("./logger.js")
 if (hostPage) app.set('view engine', 'ejs');
-if (logConnections) app.use(morgan(`${chalk.green("[API]")} :remote-addr :method ":url" :status - :response-time ms`))
+if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 
 let uid;
 
@@ -21,21 +22,18 @@ async function start() {
     try {
         serve()
     } catch(e){
-        console.log(e)
+        log(LogType.Error, e)
     }
 }
 
 async function serve() {
     app.use((req, res, next) => {
-        //console.log(req.headers)
         var head = req.headers;
         try {
             uid = head.authorization.slice(7)
-            //console.log(uid)
         } catch(e) {
 
         }
-        //head = head.slice(7)
         next()
     })
 
@@ -87,7 +85,6 @@ async function serve() {
 
     app.get('/api/versioncheck/*', (req, res) => {
         let rrversion = req.headers['x-rec-room-version']
-        //console.log(rrversion)
         if(targetVersion != null) {
             if (rrversion == targetVersion){
                 res.send("{\"ValidVersion\":true}")
@@ -232,7 +229,7 @@ async function serve() {
 
         req.on('end', async () => {
             body = body.slice(32).slice(0,7) //this is the user's Steam ID
-            console.log(body)
+            //console.log(body)
             res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
         })
     })
@@ -273,7 +270,7 @@ async function serve() {
     })
 
     const server = app.listen(port, () => {
-        console.log(`${chalk.gray("[INFO]")} Server started on port ${port}`)
+        log(LogType.Info, `Server started on port ${port}`)
     })
 
     //WebSocket
@@ -282,9 +279,9 @@ async function serve() {
     wss.on('connection', async (ws) => {
         //console.log(`${chalk.blueBright("[WS]")} Client connected!`);
         ws.on('message', async (data) => {
-            console.log(`${chalk.blueBright("[WS]")} Data received: ${data}`);
+            log(LogType.WS, `Data received: ${data}`)
             let thing = await processRequest(data)
-            console.log(`${chalk.blueBright("[WS]")} Data sent: ${thing}`)
+            log(LogType.WS, `Data sent: ${thing}`)
             ws.send(thing)
         });
 
@@ -293,8 +290,6 @@ async function serve() {
             
         });
     });
-
-    //console.log(`${chalk.blueBright("[WS]")} WS started on port ${port}`)
 }
 
 /*
@@ -308,7 +303,6 @@ async function processRequest(data){
 
     if (data.api != undefined) {
         if (data.api == "playerSubscriptions/v1/update"){
-            console.log(`${chalk.blueBright("[WS]")} Presence update called!`)
             var usr = db.findOne({ where: { id: data.param.PlayerIds[0] }})
             var ses = usr.session
             return JSON.stringify({

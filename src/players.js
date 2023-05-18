@@ -8,8 +8,6 @@ async function getPlayerArray(req){
 
     let response = new Array;
 
-    console.log(json)
-
     for(const plr in json){
         let userdata = await db.findOne({ where: {id: plr} })
         response.push(userdata)

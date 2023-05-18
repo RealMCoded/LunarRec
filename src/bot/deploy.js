@@ -3,6 +3,7 @@ const path = require('node:path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord.js');
 const { discord_bot } = require('../../config.json');
+const { LogType, log } = require("../logger.js")
 
 const token = discord_bot.token;
 
@@ -24,15 +25,15 @@ const rest = new REST({ version: '10' }).setToken(token);
 
 (() => {
 	try {
-		console.log(`[BOT] Registering ${commands.length} command(s)...`);
+		log(LogType.Bot, `Registering ${commands.length} command(s)...`);
 
 		rest.put(
 			Routes.applicationGuildCommands(clientId, guildId),
 			{ body: commands },
 		);
 		//console.error(commands);
-		console.log(`[BOT] Successfully registered ${commands.length} command(s)!`);
+		log(LogType.Bot, `Successfully registered ${commands.length} command(s)!`);
 	} catch (error) {
-		console.error(error);
+		log(LogType.Error, error);
 	}
 })();

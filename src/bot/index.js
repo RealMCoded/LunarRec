@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, ActivityType, codeBlock } = require('discord.js');
 const { discord_bot } = require('../../config.json');
+const { LogType, log } = require("../logger.js")
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -16,7 +17,7 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	console.log(`[BOT] Bot logged in as ${client.user.tag}!`);
+	log(LogType.Bot, `Bot logged in as ${client.user.tag}!`);
 
 	let stat;
 	switch (discord_bot.status.type) {
@@ -42,7 +43,7 @@ client.on('interactionCreate', async interaction => {
 	try {
 		await command.execute(interaction);
 	} catch (error) {
-		console.error(error);
+		log(LogType.Error, e)
 		await interaction.reply({ content: `❌ **There was an error while executing this command!**\n${codeBlock("json",error)}`, ephemeral: true });
 	}
 });
