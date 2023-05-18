@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { serverAddress } = require("../../../config.json")
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -21,11 +22,12 @@ module.exports = {
 				.addFields(
 					{ name: 'Registered on', value: `<t:${Math.floor(new Date(usr.createdAt).getTime()/1000)}:F>`, inline: true },
 				)
+				.setThumbnail(`${serverAddress}/img/${usr.id}`)
 				//.setTimestamp()
 
 			interaction.reply({ embeds: [exampleEmbed] });
 		} else {
-			interaction.reply({ content: `❌ The user "${interaction.options.getString("username")}" does not exist!`, ephemeral: true })
+			interaction.reply({ content: `❌ **The user "${interaction.options.getString("username")}" does not exist!**`, ephemeral: true })
 		}
 	},
 };
