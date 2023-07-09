@@ -11,6 +11,7 @@ profileImages/*
 !profileImages/__default.png
 rooms/*
 !rooms/.gitkeep
+.vs/
 
 #misc
 ngrok.exe

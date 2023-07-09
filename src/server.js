@@ -205,6 +205,11 @@ async function serve() {
      * POST REQUESTS
      */
 
+    app.post(`/api/players/v1/getorcreate`, async (req, res) => {
+        log(LogType.Error, "This version of Rec Room is not supported. (It's too old!)")
+        res.sendStatus(404)
+    })
+
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
         let body = '';
         req.setEncoding('utf8');
