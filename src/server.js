@@ -28,6 +28,7 @@ async function start() {
 
 async function serve() {
     app.use((req, res, next) => {
+        res.set('LunarRec-Version', version)
         var head = req.headers;
         try {
             uid = head.authorization.slice(7)
@@ -51,7 +52,7 @@ async function serve() {
                 registered: await getPlayerTotal(),
                 online: await getOnlinePlayers()
             },
-            server_version:{
+            lunarrec_server_version:{
                 version:version,
                 commit:process.commit
             }
@@ -72,7 +73,7 @@ async function serve() {
                 registered: await getPlayerTotal(),
                 online: await getOnlinePlayers()
             },
-            server_version:{
+            lunarrec_server_version:{
                 version:version,
                 commit:process.commit
             }
