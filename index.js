@@ -41,6 +41,11 @@ if (process.argv[2] == "reset"){
 //Init DB
 process.db = require('./database.js')
 
+//Admin panel
+if (process.argv[2] == "admin"){
+	return require("./src/admin.js").admin()
+}
+
 async function start() {
     await process.db.users.sync()
 
