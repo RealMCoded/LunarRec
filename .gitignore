@@ -12,6 +12,3 @@ profileImages/*
 rooms/*
 !rooms/.gitkeep
 .vs/
-
-#misc
-ngrok.exe

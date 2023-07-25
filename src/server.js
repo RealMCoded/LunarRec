@@ -28,7 +28,7 @@ async function start() {
 
 async function serve() {
     app.use((req, res, next) => {
-        res.set('LunarRec-Version', version)
+        res.set('x-LunarRec-Version', version)
         var head = req.headers;
         try {
             uid = head.authorization.slice(7)
@@ -277,59 +277,8 @@ async function serve() {
 
     const server = app.listen(port, () => {
         log(LogType.Info, `Server started on port ${port}`)
+        require("./ws.js").serve(server)
     })
-
-    //WebSocket
-    const wss = new WebSocket.Server({ server });
-
-    wss.on('connection', async (ws) => {
-        //console.log(`${chalk.blueBright("[WS]")} Client connected!`);
-        ws.on('message', async (data) => {
-            log(LogType.WS, `Data received: ${data}`)
-            let thing = await processRequest(data)
-            log(LogType.WS, `Data sent: ${thing}`)
-            ws.send(thing)
-        });
-
-        ws.on('close', async () => {
-            //console.log(`${chalk.blueBright("[WS]")} Client disconnected.`);
-            
-        });
-    });
-}
-
-/*
-* WebSocket Process Request
-*/
-
-async function processRequest(data){
-    let result;
-
-    data = JSON.parse(data)
-
-    if (data.api != undefined) {
-        if (data.api == "playerSubscriptions/v1/update"){
-            var usr = db.findOne({ where: { id: data.param.PlayerIds[0] }})
-            var ses = usr.session
-            return JSON.stringify({
-                Id: 12, 
-                Msg: {
-                    PlayerId: data.param.PlayerIds[0],
-                    IsOnline: true,
-                    InScreenMode: false,
-                    GameSession: ses
-                }
-            });
-        }else if (data.api == "heartbeat2"){
-            result = JSON.stringify(data)
-        } else {
-            result = ""
-        }
-    } else {
-        result = JSON.stringify({"SessionId": 2017})
-    }
-
-    return result;
 }
 
 module.exports = { start }
