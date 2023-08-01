@@ -15,6 +15,7 @@
   "author": "stuartt-mcoded",
   "license": "AGPL-3.0",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "chalk": "^4.1.2",
     "discord.js": "^14.9.0",
     "ejs": "^3.1.8",

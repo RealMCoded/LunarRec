@@ -1,10 +1,9 @@
 const { targetVersion, port, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
 const db = process.db.users
 
-const chalk = require('chalk')
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
-const WebSocket = require('ws');
+const bodyParser = require("body-parser")
 const app = express()
 const path = require("path")
 const fs = require("fs")
@@ -13,6 +12,9 @@ const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js
 const { LogType, log, log_raw } = require("./logger.js")
 if (hostPage) app.set('view engine', 'ejs');
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
+
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
 let uid;
 
@@ -31,6 +33,7 @@ async function serve() {
         res.set('x-LunarRec-Version', version)
         var head = req.headers;
         try {
+            //console.log(head)
             uid = head.authorization.slice(7)
         } catch(e) {
 
@@ -212,32 +215,27 @@ async function serve() {
     })
 
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
-        let body = '';
-        req.setEncoding('utf8');
-        req.on('data', (chunk) => {
-            body += chunk;
-        });
-
-        req.on('end', async () => {
+            /*
             body = body.slice(32) //this is the user's Steam ID
             body = await require("./datamanager.js").getProfile(body)
             body = JSON.parse(body)
-            res.send(JSON.stringify([body]))
-        })
+            */
+        body = req.body.PlatformId
+        let accs = await require("./datamanager.js").getAssociatedAccounts(body)
+        if (accs.length == 0) {
+            console.log("CREATING ACCOUNT")
+            let acc = await require("./datamanager.js").createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
+            accs = [JSON.parse(acc)]
+        }
+
+        console.log(accs)
+        res.send(JSON.stringify([accs[0]]))
     })
 
     app.post('*/api/platformlogin/v*/', async (req, res) => {
-        let body = '';
-        req.setEncoding('utf8');
-        req.on('data', (chunk) => {
-            body += chunk;
-        });
-
-        req.on('end', async () => {
-            body = body.slice(32).slice(0,7) //this is the user's Steam ID
-            //console.log(body)
-            res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
-        })
+        let body = req.body.PlayerId
+        //console.log(body)
+        res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
     })
 
     app.post('/api/images/v*/profile', async (req, res) => {
