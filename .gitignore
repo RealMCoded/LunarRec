@@ -12,3 +12,4 @@ profileImages/*
 rooms/*
 !rooms/.gitkeep
 .vs/
+.first_run
