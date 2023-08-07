@@ -26,8 +26,6 @@ This project is also still in early development stages and is **not** production
 
 - Restrict connections to one version.
 
-- Host your own customizable webpage to show server stats with [ejs](https://ejs.co/)! (Can be turned off in the config)
-
 - Public API that shows Instance Name, Instance Description, Instance Host, Instance Owner, Target Version, ping, Registered Users, Online Users, Server Version.
 
 - Hostable Discord bot to show server information and user stats!

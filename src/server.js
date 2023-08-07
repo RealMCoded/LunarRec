@@ -10,7 +10,6 @@ const fs = require("fs")
 const { version } = require("../package.json")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
 const { LogType, log, log_raw } = require("./logger.js")
-if (hostPage) app.set('view engine', 'ejs');
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -40,25 +39,9 @@ async function serve() {
         next()
     })
 
-    //Return some server stats when pinging just the IP
+    //Name Server
     app.get('/', async (req, res) => {
-        const start = Date.now();
-        if (hostPage == false) return res.send("<center><br><br><br><br><br><h1>This instance host has disabled their webpage.</h1></center>")
-        res.render('index', {
-            name: instance_info.name,
-            description: instance_info.description,
-            owner: instance_info.owner,
-            targetVersion: targetVersion ?? "any Rec Room build (pre-December 2018)",
-            ping: Date.now() - start,
-            users:{
-                registered: await getPlayerTotal(),
-                online: await getOnlinePlayers()
-            },
-            lunarrec_server_version:{
-                version:version,
-                commit:process.commit
-            }
-        });
+        res.send("LunarRec Name Server Placeholder.")
     })
 
     //Misc server info
