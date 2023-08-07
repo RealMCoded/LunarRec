@@ -33,7 +33,6 @@ async function serve() {
         res.set('x-LunarRec-Version', version)
         var head = req.headers;
         try {
-            //console.log(head)
             uid = head.authorization.slice(7)
         } catch(e) {
 
@@ -191,7 +190,7 @@ async function serve() {
         }))
     })
 
-    app.get('/img/:id', (req, res) => {
+    app.get('/api/images/v1/profile/:id', (req, res) => {
         try {
             const id = req.params.id.match(/\d+/)[0]; // extract the image ID with this regex
             const filedir = `${__dirname}/../profileImages/${id}.png`
@@ -223,18 +222,16 @@ async function serve() {
         body = req.body.PlatformId
         let accs = await require("./datamanager.js").getAssociatedAccounts(body)
         if (accs.length == 0) {
-            console.log("CREATING ACCOUNT")
             let acc = await require("./datamanager.js").createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
             accs = [JSON.parse(acc)]
         }
 
-        console.log(accs)
+        //console.log(accs)
         res.send(JSON.stringify([accs[0]]))
     })
 
     app.post('*/api/platformlogin/v*/', async (req, res) => {
         let body = req.body.PlayerId
-        //console.log(body)
         res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
     })
 
@@ -244,17 +241,17 @@ async function serve() {
     })
 
     app.post(`/api/settings/v2/set`, async (req, res) => {
-        await require("./settings.js").setSetting(uid, req)
+        await require("./settings.js").setSetting(uid, req.body)
         res.send("[]")
     })
 
     app.post(`/api/players/v2/displayname`, async (req, res) => {
-        let newname = await require("./datamanager.js").setName(uid, req)
+        let newname = await require("./datamanager.js").setName(uid, req.body)
         res.send(JSON.stringify(newname))
     })
 
     app.post(`/api/avatar/v2/set`, async (req, res) => {
-        await require("./avatar.js").saveAvatar(uid, req)
+        await require("./avatar.js").saveAvatar(uid, req.body)
         res.send("[]")
     })
 
@@ -264,12 +261,12 @@ async function serve() {
     })
 
     app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
-        const ses = await require("./sessions.js").joinRandom(uid, req)
+        const ses = await require("./sessions.js").joinRandom(uid, req.body)
         res.send(ses)
     })
 
     app.post(`/api/gamesessions/v2/create`, async (req, res) => {
-        const ses = await require("./sessions.js").create(uid, req)
+        const ses = await require("./sessions.js").create(uid, req.body)
         res.send(ses)
     })
 

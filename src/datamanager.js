@@ -37,8 +37,7 @@ async function getProfile(uid) {
 }
 
 async function setName(uid, req) {
-    let data = await require("./decodeRequest.js").decodeRequest(req)
-    data = data.slice(5)
+    let data = req.Name
 
     let userdata  = await db.findOne({ where: {id: uid} })
 

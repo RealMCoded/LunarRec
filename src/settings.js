@@ -9,8 +9,7 @@ async function loadSettings(uid){
 }
 
 async function setSetting(uid, req) {
-    let json = await require("./decodeRequest.js").decodeRequest(req)
-    json = JSON.parse(json)
+    let json = req
     if (json == "") return;
     let userdata  = await db.findOne({ where: {id: uid} })
     let currentSettings = JSON.parse(userdata.settings)

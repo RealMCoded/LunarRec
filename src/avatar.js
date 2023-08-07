@@ -7,9 +7,8 @@ async function loadAvatar(uid){
 }
 
 async function saveAvatar(uid, req){
-    let json = await require("./decodeRequest.js").decodeRequest(req)
     let userdata = await db.findOne({ where: {id: uid} })
-    userdata.update({ avatar: json })
+    userdata.update({ avatar: req })
 }
 
 module.exports = { loadAvatar, saveAvatar }
