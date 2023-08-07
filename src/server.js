@@ -1,10 +1,9 @@
 const { targetVersion, port, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
 const db = process.db.users
 
-const chalk = require('chalk')
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
-const WebSocket = require('ws');
+const bodyParser = require("body-parser")
 const app = express()
 const path = require("path")
 const fs = require("fs")
@@ -13,6 +12,9 @@ const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js
 const { LogType, log, log_raw } = require("./logger.js")
 if (hostPage) app.set('view engine', 'ejs');
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
+
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
 let uid;
 
@@ -188,7 +190,7 @@ async function serve() {
         }))
     })
 
-    app.get('/img/:id', (req, res) => {
+    app.get('/api/images/v1/profile/:id', (req, res) => {
         try {
             const id = req.params.id.match(/\d+/)[0]; // extract the image ID with this regex
             const filedir = `${__dirname}/../profileImages/${id}.png`
@@ -212,32 +214,25 @@ async function serve() {
     })
 
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
-        let body = '';
-        req.setEncoding('utf8');
-        req.on('data', (chunk) => {
-            body += chunk;
-        });
-
-        req.on('end', async () => {
+            /*
             body = body.slice(32) //this is the user's Steam ID
             body = await require("./datamanager.js").getProfile(body)
             body = JSON.parse(body)
-            res.send(JSON.stringify([body]))
-        })
+            */
+        body = req.body.PlatformId
+        let accs = await require("./datamanager.js").getAssociatedAccounts(body)
+        if (accs.length == 0) {
+            let acc = await require("./datamanager.js").createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
+            accs = [JSON.parse(acc)]
+        }
+
+        //console.log(accs)
+        res.send(JSON.stringify([accs[0]]))
     })
 
     app.post('*/api/platformlogin/v*/', async (req, res) => {
-        let body = '';
-        req.setEncoding('utf8');
-        req.on('data', (chunk) => {
-            body += chunk;
-        });
-
-        req.on('end', async () => {
-            body = body.slice(32).slice(0,7) //this is the user's Steam ID
-            //console.log(body)
-            res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
-        })
+        let body = req.body.PlayerId
+        res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
     })
 
     app.post('/api/images/v*/profile', async (req, res) => {
@@ -246,17 +241,17 @@ async function serve() {
     })
 
     app.post(`/api/settings/v2/set`, async (req, res) => {
-        await require("./settings.js").setSetting(uid, req)
+        await require("./settings.js").setSetting(uid, req.body)
         res.send("[]")
     })
 
     app.post(`/api/players/v2/displayname`, async (req, res) => {
-        let newname = await require("./datamanager.js").setName(uid, req)
+        let newname = await require("./datamanager.js").setName(uid, req.body)
         res.send(JSON.stringify(newname))
     })
 
     app.post(`/api/avatar/v2/set`, async (req, res) => {
-        await require("./avatar.js").saveAvatar(uid, req)
+        await require("./avatar.js").saveAvatar(uid, req.body)
         res.send("[]")
     })
 
@@ -266,12 +261,12 @@ async function serve() {
     })
 
     app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
-        const ses = await require("./sessions.js").joinRandom(uid, req)
+        const ses = await require("./sessions.js").joinRandom(uid, req.body)
         res.send(ses)
     })
 
     app.post(`/api/gamesessions/v2/create`, async (req, res) => {
-        const ses = await require("./sessions.js").create(uid, req)
+        const ses = await require("./sessions.js").create(uid, req.body)
         res.send(ses)
     })
 

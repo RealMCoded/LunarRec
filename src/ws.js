@@ -74,8 +74,8 @@ async function processRequest(data) {
 }
 
 async function createResponse(id, data) {
-    let usr = db.findOne({ where: { id: data.param.PlayerIds[0] }})
-    let ses = usr.session
+    let usr = await db.findOne({ where: { id: data.param.PlayerIds[0] }})
+    let ses = JSON.parse(usr.session)
     return JSON.stringify({
         Id: id,
         Msg: {

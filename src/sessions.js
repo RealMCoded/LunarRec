@@ -1,8 +1,7 @@
 const db = process.db.users
 
 async function joinRandom(uid, req){
-    let json = await require("./decodeRequest.js").decodeRequest(req)
-    json = JSON.parse(json)
+    let json = req
 
     var session = {
         Result: 0,
@@ -34,20 +33,19 @@ async function joinRandom(uid, req){
 }
 
 async function create(uid, req){
-    let json = await require("./decodeRequest.js").decodeRequest(req)
-    json = JSON.parse(json)
+    let json = req
 
     var session = {
         Result: 0,
         GameSession: {
             GameSessionId: 2017,
             RegionId: "us",
-            RoomId: json.ActivityLevelIds,
+            RoomId: json.ActivityLevelId,
             RecRoomId: null,
             EventId: null,
             CreatorPlayerId: uid,
             Name: "LunarRec Room",
-            ActivityLevelId: json.ActivityLevelIds,
+            ActivityLevelId: json.ActivityLevelId,
             Private: false,
             Sandbox: false,
             SupportsScreens: true,
