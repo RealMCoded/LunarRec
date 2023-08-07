@@ -1,4 +1,4 @@
-const { targetVersion, port, serverAddress, instance_info, hostPage, logConnections } = require("../config.json")
+const { targetVersion, port, serverAddress, instance_info, hostPage, logConnections, customPosters } = require("../config.json")
 const db = process.db.users
 
 const express = require('express') //express.js - the web server
@@ -201,6 +201,20 @@ async function serve() {
             }
         } catch(e) {
             res.sendStatus(500)
+        }
+    })
+
+    
+    app.get('/api/images/v1/named', (req, res) => {
+        if (customPosters) {
+            const filedir = `${__dirname}/../posters/${req.query.img}.png`
+            if (fs.existsSync(filedir)) {
+                res.sendFile(path.resolve(filedir))
+            } else {
+                res.sendStatus(404)
+            }
+        } else {
+            res.sendStatus(404)
         }
     })
 
