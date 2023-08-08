@@ -19,6 +19,7 @@ const LogType = {
  * log but no console output
  * @param {Enumerator<LogType>} type - The Type of message to log
  * @param {string} message - The message to log
+ * @returns {string} Formatted user input message
  */
 function log_raw(type, message) {
     let msg_format;
@@ -39,6 +40,7 @@ function log_raw(type, message) {
  * console.log but prettier
  * @param {Enumerator<LogType>} type - The Type of message to log
  * @param {string} message - The message to log
+ * @returns {string} User input message, unformatted.
  */
 function log(type, message) {
     console.log(log_raw(type, message))
