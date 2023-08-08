@@ -176,7 +176,7 @@ async function serve() {
     app.get('/api/images/v1/profile/:id', (req, res) => {
         try {
             const id = req.params.id.match(/\d+/)[0]; // extract the image ID with this regex
-            const filedir = `${__dirname}/../profileImages/${id}.png`
+            const filedir = `${__dirname}/../cdn/profileImages/${id}.png`
             if (fs.existsSync(filedir)) {
                 res.sendFile(path.resolve(filedir))
             } else {
@@ -190,7 +190,7 @@ async function serve() {
     
     app.get('/api/images/v1/named', (req, res) => {
         if (customPosters) {
-            const filedir = `${__dirname}/../posters/${req.query.img}.png`
+            const filedir = `${__dirname}/../cdn/posters/${req.query.img}.png`
             if (fs.existsSync(filedir)) {
                 res.sendFile(path.resolve(filedir))
             } else {

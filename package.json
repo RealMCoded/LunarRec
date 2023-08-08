@@ -1,7 +1,7 @@
 {
   "name": "lunarrec",
   "version": "0.1.0",
-  "description": "A RecNet server replacement for old Rec Room builds that multiple people can connect to",
+  "description": "A server for old Rec Room builds that multiple people can connect to",
   "main": "index.js",
   "scripts": {
     "start": "node .",

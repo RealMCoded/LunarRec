@@ -1,1 +1,1 @@
-Welcome to LunarRec! A RecNet server replacement for old Rec Room builds that multiple people can connect to.
+Welcome to LunarRec! A server for old Rec Room builds that multiple people can connect to.

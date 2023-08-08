@@ -15,7 +15,7 @@ async function getAssociatedAccounts(steamID) {
 
 async function createAccount(uname, steamID) {
     let user = await db.create({username: uname, display_name: uname, linked_steam_id: steamID})
-    fs.copyFile('./profileImages/__default.png', `./profileImages/${user.id}.png`, (err) => {
+    fs.copyFile('./cdn/profileImages/__default.png', `./cdn/profileImages/${user.id}.png`, (err) => {
             if (err) throw err;
     })
 
@@ -28,7 +28,7 @@ async function getProfile(uid) {
     //this code will only execute if the user is new to LunarRec
     if (userdata.username == null) {
         userdata.update({ username: `LunarRecUser_${userdata.id}`, display_name: `LunarRecUser_${userdata.id}` })
-        fs.copyFile('./profileImages/__default.png', `./profileImages/${userdata.id}.png`, (err) => {
+        fs.copyFile('./cdn/profileImages/__default.png', `./cdn/profileImages/${userdata.id}.png`, (err) => {
             if (err) throw err;
         })
     }

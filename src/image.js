@@ -3,9 +3,9 @@ const fs = require("fs")
 async function setPFP(uid, req){
     var bufferHeader=0;
 
-    fs.unlinkSync(`./profileImages/${uid}.png`)
+    fs.unlinkSync(`./cdn/profileImages/${uid}.png`)
 
-    var f=fs.createWriteStream(`./profileImages/${uid}.png`);
+    var f=fs.createWriteStream(`./cdn/profileImages/${uid}.png`);
 
     req.on('data', (chunk) => {
         // We only want to remove the header data one time

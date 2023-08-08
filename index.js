@@ -33,7 +33,7 @@ if (process.argv[2] == "reset"){
 	}
 
 	log(LogType.Info, "Deleting Profile Images...")
-	let dir = "./profileImages/"
+	let dir = "./cdn/profileImages/"
 	const files = fs.readdirSync(dir);
 	files.forEach((file) => {
 		if (file === "__default.png") return;

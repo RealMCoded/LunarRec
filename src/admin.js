@@ -26,7 +26,7 @@ async function admin() {
 
                 try {
                     await db.users.create({id: command[1], username: command[2], display_name: command[3]})
-                    fs.copyFile('./profileImages/__default.png', `./profileImages/${command[1]}.png`, (err) => {
+                    fs.copyFile('./cdn/profileImages/__default.png', `./cdn/profileImages/${command[1]}.png`, (err) => {
                         if (err) throw err;
                     })
                     console.log(`Created new account with "${command[3]}" (@${command[2]}) with the ID of ${command[1]}`)
