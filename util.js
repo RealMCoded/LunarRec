@@ -22,4 +22,28 @@ function makeUserJSONFromDB(userdata) {
     })
 }
 
-module.exports = { random, makeUserJSONFromDB }
+function resetServerData() {
+    try {
+		fs.unlinkSync("./database.sqlite")
+	} catch(e){
+		log(LogType.Error, `Something bad happened while erasing the database. If the database never existed, this is expected.\n\n${e}`)
+	}
+
+	log(LogType.Info, "Deleting Images (1/2 | Profile Pictures)...")
+	let dir_pfp = "./cdn/profileImages/"
+	const files_pfp = fs.readdirSync(dir_pfp);
+	files_pfp.forEach((file) => {
+		if (file === "__default.png") return;
+		fs.unlinkSync(`${dir_pfp}/${file}`);
+	});
+
+	log(LogType.Info, "Deleting Images (2/2 | Share Cam)...")
+	let dir_img = "./cdn/images/"
+	const files_img = fs.readdirSync(dir_img);
+	files_img.forEach((file) => {
+		if (file === ".gitkeep") return;
+		fs.unlinkSync(`${dir_img}/${file}`);
+	});
+}
+
+module.exports = { random, makeUserJSONFromDB, resetServerData }

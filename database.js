@@ -67,4 +67,21 @@ const rooms = sequelize.define('rooms', {
   }
 })
 
-module.exports = { users, rooms }
+const images = sequelize.define('images', {
+  name:{
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  creator:{
+    type: Sequelize.STRING,
+  },
+  tagged_users:{
+    type: Sequelize.STRING,
+    defaultValue: "[]"
+  },
+  room: {
+    type: Sequelize.STRING,
+  }
+})
+
+module.exports = { users, rooms, images }

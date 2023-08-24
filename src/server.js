@@ -41,7 +41,7 @@ async function serve() {
 
     //Name Server
     app.get('/', async (req, res) => {
-        res.send("LunarRec Name Server Placeholder.")
+        res.send(JSON.stringify({NOTE: "LunarRec Name Server. If IPs are wrong check your config.", API:`${serverAddress}`, Notifications:`${serverAddress}`, Images:`${serverAddress}/img`}))
     })
 
     //Misc server info
@@ -53,7 +53,7 @@ async function serve() {
             owner: instance_info.owner,
             website: instance_info.website,
             targetVersion: targetVersion,
-            ping: Date.now() - start,
+            ping: undefined, //TODO: Calculate Ping
             users:{
                 registered: await getPlayerTotal(),
                 online: await getOnlinePlayers()
@@ -161,7 +161,7 @@ async function serve() {
     app.get('/api/config/v2', (req, res) => {
         res.send(JSON.stringify({
             MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
-            CdnBaseUri: `${serverAddress}/`,
+            CdnBaseUri: `${serverAddress}`,
             LevelProgressionMaps:[{"Level":0,"RequiredXp":1},{"Level":1,"RequiredXp":2},{"Level":2,"RequiredXp":3},{"Level":3,"RequiredXp":4},{"Level":4,"RequiredXp":5},{"Level":5,"RequiredXp":6},{"Level":6,"RequiredXp":7},{"Level":7,"RequiredXp":8},{"Level":8,"RequiredXp":9},{"Level":9,"RequiredXp":10},{"Level":10,"RequiredXp":11},{"Level":11,"RequiredXp":12},{"Level":12,"RequiredXp":13},{"Level":13,"RequiredXp":14},{"Level":14,"RequiredXp":15},{"Level":15,"RequiredXp":16},{"Level":16,"RequiredXp":17},{"Level":17,"RequiredXp":18},{"Level":18,"RequiredXp":19},{"Level":19,"RequiredXp":20},{"Level":20,"RequiredXp":21}],
             MatchmakingParams:{
                 PreferFullRoomsFrequency: 1,
@@ -173,10 +173,13 @@ async function serve() {
         }))
     })
 
-    app.get('/api/images/v1/profile/:id', (req, res) => {
+    app.get('/img/:id', (req, res) => {
         try {
-            const id = req.params.id.match(/\d+/)[0]; // extract the image ID with this regex
-            const filedir = `${__dirname}/../cdn/profileImages/${id}.png`
+            const id = req.params.id
+            console.log(id)
+            console.log(req.params.id.includes("IMG_"))
+            let filedir;
+            if (req.params.id.includes("IMG_")) filedir = `${__dirname}/../cdn/images/${id}`; else filedir = `${__dirname}/../cdn/profileImages/${id}.png`;
             if (fs.existsSync(filedir)) {
                 res.sendFile(path.resolve(filedir))
             } else {
@@ -237,9 +240,24 @@ async function serve() {
         res.sendStatus(200);
     })
 
+    app.post('/api/images/v*/uploadtransient', async (req, res) => {
+        var img = await require("./image.js").uploadImg(true, uid, req)
+        res.send(img)
+    })
+
+    app.post('/api/images/v*/deletetransient', async (req, res) => {
+        await require("./image.js").deleteImg(req)
+        res.sendStatus(200)
+    })
+
     app.post(`/api/settings/v2/set`, async (req, res) => {
         await require("./settings.js").setSetting(uid, req.body)
         res.send("[]")
+    })
+
+    app.post(`/api/players/v*/createProfile`, async (req, res) => {
+        console.log(req.body)
+        res.sendStatus(404)
     })
 
     app.post(`/api/players/v2/displayname`, async (req, res) => {
@@ -253,7 +271,7 @@ async function serve() {
     })
 
     app.post(`/api/players/v1/list`, async (req, res) => {
-        let resp = await getPlayerArray(req)
+        let resp = await getPlayerArray(req.body)
         res.send(resp)
     })
 

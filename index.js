@@ -25,21 +25,8 @@ console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.hex(p
 
 //Reset data command
 if (process.argv[2] == "reset"){
-	try {
-		log(LogType.Info, "Deleting Database...")
-		fs.unlinkSync("./database.sqlite")
-	} catch(e){
-		log(LogType.Error, `Something bad happened while erasing the database. If the database never existed, this is expected.\n\n${e}`)
-	}
-
-	log(LogType.Info, "Deleting Profile Images...")
-	let dir = "./cdn/profileImages/"
-	const files = fs.readdirSync(dir);
-	files.forEach((file) => {
-		if (file === "__default.png") return;
-		fs.unlinkSync(`${dir}/${file}`);
-	});
-
+	log(LogType.Info, "Deleting Database...")
+	require('./util.js').resetServerData()
 	log(LogType.Info, "Reset complete!")
 	process.exit()
 }
@@ -62,10 +49,20 @@ Please check out the github repo for first time install steps.
 Also note that LunarRec is still a heavy work in progress project that is not production ready.
 
 To read this message again, Delete the file ".first_run" in the root directory of LunarRec.
-`)
-	}
+`)}
 
     await process.db.users.sync()
+	await process.db.images.sync()
+
+	//reset everyone's session to NULL incase it isn't already.
+	try {
+		await process.db.users.update(
+		  { session: null },
+		  { where: {} }
+		);
+	} catch (error) {
+		log(LogType.Error, "Failed to set user sessions to \"NULL\". Invalid active player count and player login issues may happen.")
+	}
 
 	if (discord_bot.enabled) {
 		log(LogType.Bot, "Discord Bot enabled!")
