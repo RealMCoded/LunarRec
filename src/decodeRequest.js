@@ -1,3 +1,7 @@
+/***
+ * @deprecated
+ */
+
 async function decodeRequest(req){
     let data = new Promise(function(resolve) {
         let body = '';

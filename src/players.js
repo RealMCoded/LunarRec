@@ -2,9 +2,7 @@ const db = process.db.users
 const { Op } = require('sequelize');
 
 async function getPlayerArray(req){
-    let json;
-    json = await require("./decodeRequest.js").decodeRequest(req)
-    json = JSON.parse(json)
+    let json = req
 
     let response = new Array;
 
