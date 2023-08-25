@@ -308,6 +308,11 @@ async function serve() {
     })
 
     const server = app.listen(port, () => {
+        app._router.stack.forEach(function(r){
+            if (r.route && r.route.path){
+                log(LogType.Debug, `Route: [${r.route.stack[0].method.toUpperCase()}] ${r.route.path}`)
+            }
+        })
         log(LogType.Info, `Server started on port ${port}`)
         require("./ws.js").serve(server)
     })
