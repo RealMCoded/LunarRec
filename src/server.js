@@ -4,11 +4,13 @@ const db = process.db.users
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
 const bodyParser = require("body-parser")
+const jwt = require("jsonwebtoken")
 const app = express()
 const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
+const {token_signature} = require("../config.json")
 const { LogType, log, log_raw } = require("./logger.js")
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 
@@ -19,6 +21,39 @@ let uid;
 
 uid = 0
 
+const authenticateToken = async (req, res, next) => {
+    // Define an array of endpoints that do not require authorization
+    const loginEndpoints = [
+        /^\/$/,
+        /^\/api\/versioncheck\//,
+        /^\/api\/config\/v\d+$/,
+        /^\/api\/platformlogin\/v\d+$/,
+        /^\/api\/platformlogin\/v\d+\/profiles$/
+    ];
+    
+    for (const endpointRegex of loginEndpoints) {
+        if (endpointRegex.test(req.path)) {
+            return next(); // Skip authentication for matched endpoints
+        }
+    }    
+  
+    // Rest of the authentication logic
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+  
+    if (token == null) {
+      return res.sendStatus(401); // Unauthorized
+    }
+  
+    jwt.verify(token, token_signature, (err, decoded) => {
+      if (err) {
+        return res.sendStatus(403); // Forbidden
+      }
+      uid = decoded.PlayerId
+      next();
+    });
+};
+
 async function start() {
     try {
         serve()
@@ -28,16 +63,7 @@ async function start() {
 }
 
 async function serve() {
-    app.use((req, res, next) => {
-        res.set('x-LunarRec-Version', version)
-        var head = req.headers;
-        try {
-            uid = head.authorization.slice(7)
-        } catch(e) {
-
-        }
-        next()
-    })
+    app.use(authenticateToken);
 
     //Name Server
     app.get('/', async (req, res) => {
@@ -154,10 +180,6 @@ async function serve() {
         res.send("[]")
     })
 
-    app.get('/api/PlayerReporting/v1/moderationBlockDetails', (req, res) => {
-        res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
-    })
-
     app.get('/api/config/v2', (req, res) => {
         res.send(JSON.stringify({
             MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
@@ -214,11 +236,6 @@ async function serve() {
     })
 
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
-            /*
-            body = body.slice(32) //this is the user's Steam ID
-            body = await require("./datamanager.js").getProfile(body)
-            body = JSON.parse(body)
-            */
         body = req.body.PlatformId
         let accs = await require("./datamanager.js").getAssociatedAccounts(body)
         if (accs.length == 0) {
@@ -226,13 +243,18 @@ async function serve() {
             accs = [JSON.parse(acc)]
         }
 
-        //console.log(accs)
         res.send(JSON.stringify([accs[0]]))
     })
 
     app.post('*/api/platformlogin/v*/', async (req, res) => {
-        let body = req.body.PlayerId
-        res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
+        let body_JWT = req.body
+        //remove any unused params to reduce bloat
+        delete body_JWT.AuthParams
+        delete body_JWT.BuildTimestamp
+        delete body_JWT.DeviceId
+
+        const token = jwt.sign(req.body, token_signature, {expiresIn: "24h"});
+        res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
     })
 
     app.post('/api/images/v*/profile', async (req, res) => {

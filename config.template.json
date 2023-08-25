@@ -11,6 +11,7 @@
     "targetVersion": null,
     "customPosters": false,
     "port": 2017,
+    "token_signature":"LunarRec_ReplaceMeWithSomethingElsePlz",
     "webhook":{
         "console": "",
         "reports": ""
