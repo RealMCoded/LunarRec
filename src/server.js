@@ -21,13 +21,21 @@ let uid;
 
 uid = 0
 
-const authenticateToken = (req, res, next) => {
+const authenticateToken = async (req, res, next) => {
     // Define an array of endpoints that do not require authorization
-    const loginEndpoints = ['/', '/api/versioncheck/*', '/api/config/v*', '/api/platformlogin/v1/profiles'];
-  
-    if (!loginEndpoints.includes(req.path)) {
-      return next(); // Skip authentication for excluded endpoints
-    }
+    const loginEndpoints = [
+        /^\/$/,
+        /^\/api\/versioncheck\//,
+        /^\/api\/config\/v\d+$/,
+        /^\/api\/platformlogin\/v\d+$/,
+        /^\/api\/platformlogin\/v\d+\/profiles$/
+    ];
+    
+    for (const endpointRegex of loginEndpoints) {
+        if (endpointRegex.test(req.path)) {
+            return next(); // Skip authentication for matched endpoints
+        }
+    }    
   
     // Rest of the authentication logic
     const authHeader = req.headers['authorization'];
@@ -37,11 +45,11 @@ const authenticateToken = (req, res, next) => {
       return res.sendStatus(401); // Unauthorized
     }
   
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, token_signature, (err, decoded) => {
       if (err) {
         return res.sendStatus(403); // Forbidden
       }
-      req.user = user;
+      uid = decoded.PlayerId
       next();
     });
 };
@@ -55,19 +63,7 @@ async function start() {
 }
 
 async function serve() {
-    
-    app.use((req, res, next) => {
-        res.set('x-LunarRec-Version', version)
-        var head = req.headers;
-        try {
-            uid = head.authorization.slice(7)
-        } catch(e) {
-
-        }
-        next()
-    })
-    
-    //app.use(authenticateToken);
+    app.use(authenticateToken);
 
     //Name Server
     app.get('/', async (req, res) => {
@@ -267,10 +263,7 @@ async function serve() {
         delete body_JWT.DeviceId
 
         const token = jwt.sign(req.body, token_signature, {expiresIn: 604800});
-        console.log(token)
-
-        let body = req.body.PlayerId
-        res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
+        res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
     })
 
     app.post('/api/images/v*/profile', async (req, res) => {
