@@ -24,6 +24,8 @@ This project is also still in early development stages and is **not** production
 
 - Uses a SQLite database to store user data.
 
+- Uses [JSON Web Tokens](https://jwt.io/) for user authentication.
+
 - Restrict connections to one version.
 
 - Public API that shows Instance Name, Instance Description, Instance Host, Instance Owner, Target Version, ping, Registered Users, Online Users, Server Version.
