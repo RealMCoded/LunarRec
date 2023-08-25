@@ -1,5 +1,5 @@
 const fetch = require("node-fetch")
-const { webhook } = require("./config.json")
+const { webhook } = require("../config.json")
 
 async function sendWebhook(data){
     if (webhook.console == null || webhook.console == "") return;

@@ -14,7 +14,7 @@ if (!fs.existsSync("./config.json")) {
 }
 
 const { discord_bot, token_signature } = require("./config.json")
-const { sendWebhook } = require("./webhook.js")
+const { sendWebhook } = require("./src/webhook.js")
 
 //Token Signature Warnings
 if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
