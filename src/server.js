@@ -10,7 +10,7 @@ const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
-const {token_signature} = require("../config.json")
+const {token_signature, allow2016AndEarly2017} = require("../config.json")
 const { LogType, log, log_raw } = require("./logger.js")
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 
@@ -32,7 +32,8 @@ const authenticateToken = async (req, res, next) => {
         /^\/api\/versioncheck\//,
         /^\/api\/config\/v\d+$/,
         /^\/api\/platformlogin\/v\d+$/,
-        /^\/api\/platformlogin\/v\d+\/profiles$/
+        /^\/api\/platformlogin\/v\d+\/profiles$/,
+        /^\/api\/players\/v\d+\/getorcreate$/,
     ];
     
     for (const endpointRegex of loginEndpoints) {
@@ -47,6 +48,16 @@ const authenticateToken = async (req, res, next) => {
   
     if (token == null) {
       return res.sendStatus(401); // Unauthorized
+    }
+
+    //old build mode
+    if (allow2016AndEarly2017) {
+        //see why it's insecure now?
+        if(atob(token) === "recroom@againstgrav.com:recnet87") {
+            return next();
+        } else if (atob(token) !== "recroom@againstgrav.com:recnet87") {
+            return res.sendStatus(403); // Forbidden
+        }
     }
   
     jwt.verify(token, token_signature, (err, decoded) => {
@@ -233,8 +244,22 @@ async function serve() {
      */
 
     app.post(`/api/players/v1/getorcreate`, async (req, res) => {
-        log(LogType.Error, "This version of Rec Room is not supported. (It's too old!)")
-        res.sendStatus(404)
+        if (allow2016AndEarly2017) {
+            body = req.body.PlatformId
+            let accs = await require("./datamanager.js").getAssociatedAccounts(body)
+            if (accs.length == 0) {
+                let acc = await require("./datamanager.js").createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
+                accs = [JSON.parse(acc)]
+            }
+
+            res.send(JSON.stringify(accs[0]))
+        } else {
+            res.sendStatus(405)
+        }
+    })
+
+    app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
+        res.send("[]")
     })
 
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {

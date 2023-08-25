@@ -13,7 +13,7 @@ if (!fs.existsSync("./config.json")) {
 
 log(LogType.Debug, "Debug Logging Enabled!")
 
-const { discord_bot, token_signature } = require("./config.json")
+const { discord_bot, token_signature, allow2016AndEarly2017 } = require("./config.json")
 const { sendWebhook } = require("./src/webhook.js")
 
 //Token Signature Warnings
@@ -27,6 +27,13 @@ if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
 	log(LogType.Warn, "Your \"token_signature\" in your config is less than 10 characters.")
 	log(LogType.Warn, "This makes it easier for people to brute force your JWT password!")
 	log(LogType.Warn, "Please change this variable to something long and unique before making this server public to other players.")
+}
+
+if (allow2016AndEarly2017) {
+	log(LogType.Warn, "⚠️EARLY BUILD MODE ENABLED⚠️")
+	log(LogType.Warn, "This server has \"allow2016AndEarly2017\" in the config set to true.")
+	log(LogType.Warn, "Due to weak security, it is easy for anyone to generate auth tokens for this version.")
+	log(LogType.Warn, "Please disable old build mode if you aren't supporting 2016 and early 2017 builds.")
 }
 
 //load colors

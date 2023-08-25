@@ -7,9 +7,10 @@
     },
     "logConnections": false,
     "debugOutput": false,
-    "serverAddress":"http://localhost",
+    "serverAddress":"http://localhost:2017",
     "targetVersion": null,
     "customPosters": false,
+    "allow2016AndEarly2017": false,
     "port": 2017,
     "token_signature":"LunarRec_ReplaceMeWithSomethingElsePlz",
     "webhook":{
