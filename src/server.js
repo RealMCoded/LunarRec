@@ -4,11 +4,13 @@ const db = process.db.users
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
 const bodyParser = require("body-parser")
+const jwt = require("jsonwebtoken")
 const app = express()
 const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
+const {token_signature} = require("../config.json")
 const { LogType, log, log_raw } = require("./logger.js")
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 
@@ -19,6 +21,31 @@ let uid;
 
 uid = 0
 
+const authenticateToken = (req, res, next) => {
+    // Define an array of endpoints that do not require authorization
+    const loginEndpoints = ['/', '/api/versioncheck/*', '/api/config/v*', '/api/platformlogin/v1/profiles'];
+  
+    if (!loginEndpoints.includes(req.path)) {
+      return next(); // Skip authentication for excluded endpoints
+    }
+  
+    // Rest of the authentication logic
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+  
+    if (token == null) {
+      return res.sendStatus(401); // Unauthorized
+    }
+  
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.sendStatus(403); // Forbidden
+      }
+      req.user = user;
+      next();
+    });
+};
+
 async function start() {
     try {
         serve()
@@ -28,6 +55,7 @@ async function start() {
 }
 
 async function serve() {
+    
     app.use((req, res, next) => {
         res.set('x-LunarRec-Version', version)
         var head = req.headers;
@@ -38,6 +66,8 @@ async function serve() {
         }
         next()
     })
+    
+    //app.use(authenticateToken);
 
     //Name Server
     app.get('/', async (req, res) => {
@@ -231,6 +261,14 @@ async function serve() {
     })
 
     app.post('*/api/platformlogin/v*/', async (req, res) => {
+        let body_JWT = req.body
+        delete body_JWT.AuthParams
+        delete body_JWT.BuildTimestamp
+        delete body_JWT.DeviceId
+
+        const token = jwt.sign(req.body, token_signature, {expiresIn: 604800});
+        console.log(token)
+
         let body = req.body.PlayerId
         res.send(JSON.stringify({Token: body.toString(), PlayerId:body, Error: ""}))
     })
