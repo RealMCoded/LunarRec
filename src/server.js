@@ -236,11 +236,6 @@ async function serve() {
     })
 
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
-            /*
-            body = body.slice(32) //this is the user's Steam ID
-            body = await require("./datamanager.js").getProfile(body)
-            body = JSON.parse(body)
-            */
         body = req.body.PlatformId
         let accs = await require("./datamanager.js").getAssociatedAccounts(body)
         if (accs.length == 0) {
@@ -248,12 +243,12 @@ async function serve() {
             accs = [JSON.parse(acc)]
         }
 
-        //console.log(accs)
         res.send(JSON.stringify([accs[0]]))
     })
 
     app.post('*/api/platformlogin/v*/', async (req, res) => {
         let body_JWT = req.body
+        //remove any unused params to reduce bloat
         delete body_JWT.AuthParams
         delete body_JWT.BuildTimestamp
         delete body_JWT.DeviceId
