@@ -6,6 +6,8 @@ const { version } = require("./package.json")
 const fs = require('fs');
 const { LogType, log } = require("./src/logger.js")
 
+log(LogType.Debug, "Debug Logging Enabled!")
+
 if (!fs.existsSync("./config.json")) {
 	log(LogType.Error, `Config does not exist! Make a copy of the file "config.template.json", rename it to "config.json", and edit the values inside the config.`)
 	process.exit(1)
@@ -28,13 +30,13 @@ if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
 }
 
 //load colors
-process.colors = require('./colors.json')
+let colors = require('./colors.json')
 
 try{process.commit = child_process.execSync('git rev-parse HEAD').toString().substring(0, 7)} catch(e) {process.commit = "[git not installed]"}
 
 let versionStr = ` Version ${version} (commit ${process.commit})`
 
-console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.hex(process.colors.logo)("LunarRec")}\n${versionStr}\n${"=".repeat(versionStr.length+1)}`)
+console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.hex(colors.logo)("LunarRec")}\n${versionStr}\n${"=".repeat(versionStr.length+1)}`)
 
 //Reset data command
 if (process.argv[2] == "reset"){

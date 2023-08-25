@@ -1,5 +1,6 @@
 const chalk = require("chalk")
 const colors = require("../colors.json")
+const {debugOutput} = require("../config.json")
 
 /***
  * Enum for log()
@@ -12,7 +13,8 @@ const LogType = {
     Error: 2,
     API: 3, 
     WS: 4,
-    Bot: 5
+    Bot: 5,
+    Debug: 6
 }
 
 /***
@@ -30,6 +32,7 @@ function log_raw(type, message) {
         case 3: { msg_format = `${chalk.hex(colors.api)("[API]")} ${message}` } break;
         case 4: { msg_format = `${chalk.hex(colors.ws)("[WS]")} ${message}` } break;
         case 5: { msg_format = `${chalk.hex(colors.discord)("[BOT]")} ${message}` } break;
+        case 6: { msg_format = `${chalk.hex(colors.debug)("[DEBUG]")} ${message}` } break;
         default: { msg_format = `[UNKNOWN TYPE "${type}"] ${message}` } break;
     }
 
@@ -43,6 +46,7 @@ function log_raw(type, message) {
  * @returns {string} User input message, unformatted.
  */
 function log(type, message) {
+    if (!debugOutput && type === LogType.Debug) return;
     console.log(log_raw(type, message))
 
     return message;

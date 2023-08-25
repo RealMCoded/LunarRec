@@ -7,6 +7,7 @@
         "website": "https://example.com"
     },
     "logConnections": false,
+    "debugOutput": false,
     "serverAddress":"http://localhost",
     "targetVersion": null,
     "customPosters": false,
