@@ -198,8 +198,6 @@ async function serve() {
     app.get('/img/:id', (req, res) => {
         try {
             const id = req.params.id
-            console.log(id)
-            console.log(req.params.id.includes("IMG_"))
             let filedir;
             if (req.params.id.includes("IMG_")) filedir = `${__dirname}/../cdn/images/${id}`; else filedir = `${__dirname}/../cdn/profileImages/${id}.png`;
             if (fs.existsSync(filedir)) {

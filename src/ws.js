@@ -37,9 +37,7 @@ function serve(server) {
     const wss = new WebSocket.Server({ server });
 
     wss.on('connection', async (ws) => {
-        ws.on('open', async (ws) => {
-            log(LogType.Debug, "WS: A client connected!")
-        });
+        log(LogType.Debug, "WS: A client connected!")
 
         ws.on('message', async (data) => {
             ws.send(await processRequest(data));

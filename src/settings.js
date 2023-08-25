@@ -13,6 +13,7 @@ async function setSetting(uid, req) {
     if (json == "") return;
     let userdata  = await db.findOne({ where: {id: uid} })
     let currentSettings = JSON.parse(userdata.settings)
+    log(LogType.Debug, `User ${uid}: ${JSON.stringify(json)}`)
     for(const element of currentSettings){
         if (element.Key == json.Key){
             log(LogType.Debug, `User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
