@@ -50,14 +50,9 @@ const authenticateToken = async (req, res, next) => {
       return res.sendStatus(401); // Unauthorized
     }
 
-    //old build mode
-    if (allow2016AndEarly2017) {
-        //see why it's insecure now?
-        if(atob(token) === "recroom@againstgrav.com:recnet87") {
-            return next();
-        } else if (atob(token) !== "recroom@againstgrav.com:recnet87") {
-            return res.sendStatus(403); // Forbidden
-        }
+    //old build mode. see why it's insecure now?
+    if(atob(token) === "recroom@againstgrav.com:recnet87" && allow2016AndEarly2017) {
+        return next();
     }
   
     jwt.verify(token, token_signature, (err, decoded) => {
