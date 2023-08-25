@@ -11,8 +11,21 @@ if (!fs.existsSync("./config.json")) {
 	process.exit(1)
 }
 
-const { discord_bot } = require("./config.json")
+const { discord_bot, token_signature } = require("./config.json")
 const { sendWebhook } = require("./webhook.js")
+
+//Token Signature Warnings
+if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
+	log(LogType.Warn, "⚠️SECURITY RISK DETECTED - CHANGE YOUR JWT TOKEN SIGNATURE⚠️")
+	log(LogType.Warn, "Your \"token_signature\" in your config is still set to the default value! (LunarRec_ReplaceMeWithSomethingElsePlz)")
+	log(LogType.Warn, "This means anyone can create JWT tokens and log into anyones account that is on this server!")
+	log(LogType.Warn, "Please change this variable to something long and unique before making this server public to other players.")
+} else if (token_signature.length < 10) {
+	log(LogType.Warn, "⚠️SECURITY RISK DETECTED - CHANGE YOUR JWT TOKEN SIGNATURE⚠️")
+	log(LogType.Warn, "Your \"token_signature\" in your config is less than 10 characters.")
+	log(LogType.Warn, "This makes it easier for people to brute force your JWT password!")
+	log(LogType.Warn, "Please change this variable to something long and unique before making this server public to other players.")
+}
 
 //load colors
 process.colors = require('./colors.json')
