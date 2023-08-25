@@ -6,12 +6,12 @@ const { version } = require("./package.json")
 const fs = require('fs');
 const { LogType, log } = require("./src/logger.js")
 
-log(LogType.Debug, "Debug Logging Enabled!")
-
 if (!fs.existsSync("./config.json")) {
 	log(LogType.Error, `Config does not exist! Make a copy of the file "config.template.json", rename it to "config.json", and edit the values inside the config.`)
 	process.exit(1)
 }
+
+log(LogType.Debug, "Debug Logging Enabled!")
 
 const { discord_bot, token_signature } = require("./config.json")
 const { sendWebhook } = require("./src/webhook.js")

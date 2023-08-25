@@ -1,6 +1,11 @@
 const chalk = require("chalk")
 const colors = require("../colors.json")
-const {debugOutput} = require("../config.json")
+let debugOutput;
+try {
+    debugOutput = require("../config.json").debugOutput
+} catch(e) {
+    debugOutput = false
+}
 
 /***
  * Enum for log()
