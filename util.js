@@ -1,3 +1,5 @@
+const { LogType, log } = require("./src/logger.js")
+
 function random(number) {
     return Math.floor(Math.random() * number)
 }
@@ -23,6 +25,7 @@ function makeUserJSONFromDB(userdata) {
 }
 
 function resetServerData() {
+    log(LogType.Info, "Deleting Database...")
     try {
 		fs.unlinkSync("./database.sqlite")
 	} catch(e){
@@ -44,6 +47,8 @@ function resetServerData() {
 		if (file === ".gitkeep") return;
 		fs.unlinkSync(`${dir_img}/${file}`);
 	});
+    log(LogType.Info, "Reset complete!")
+	process.exit()
 }
 
 module.exports = { random, makeUserJSONFromDB, resetServerData }

@@ -40,10 +40,7 @@ console.log(`${" ".repeat((versionStr.length-"lunarrec".length)/2)}${chalk.hex(c
 
 //Reset data command
 if (process.argv[2] == "reset"){
-	log(LogType.Info, "Deleting Database...")
-	require('./util.js').resetServerData()
-	log(LogType.Info, "Reset complete!")
-	process.exit()
+	return require('./util.js').resetServerData()
 }
 
 //Init DB
