@@ -253,7 +253,7 @@ async function serve() {
         delete body_JWT.BuildTimestamp
         delete body_JWT.DeviceId
 
-        const token = jwt.sign(req.body, token_signature, {expiresIn: 604800});
+        const token = jwt.sign(req.body, token_signature, {expiresIn: "24h"});
         res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
     })
 
