@@ -278,7 +278,7 @@ async function serve() {
     })
 
     app.post(`/api/players/v*/createProfile`, async (req, res) => {
-        console.log(req.body)
+        log(LogType.Debug, req.body)
         res.sendStatus(404)
     })
 

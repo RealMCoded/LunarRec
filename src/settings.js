@@ -15,7 +15,7 @@ async function setSetting(uid, req) {
     let currentSettings = JSON.parse(userdata.settings)
     for(const element of currentSettings){
         if (element.Key == json.Key){
-            log(LogType.API, `User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
+            log(LogType.Debug, `User ${uid}: Updated setting "${json.Key}" to "${json.Value}". Was "${element.Value}"`)
             element.Value = json.Value
         }
     }
