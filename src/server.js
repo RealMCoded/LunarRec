@@ -180,10 +180,6 @@ async function serve() {
         res.send("[]")
     })
 
-    app.get('/api/PlayerReporting/v1/moderationBlockDetails', (req, res) => {
-        res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
-    })
-
     app.get('/api/config/v2', (req, res) => {
         res.send(JSON.stringify({
             MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
