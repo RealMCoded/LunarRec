@@ -22,9 +22,13 @@ let uid;
 uid = 0
 
 const authenticateToken = async (req, res, next) => {
+    //Add lunarrec version header
+    res.set('x-LunarRec-Version', version)
+
     // Define an array of endpoints that do not require authorization
     const loginEndpoints = [
         /^\/$/,
+        /^\/api\/stats/,
         /^\/api\/versioncheck\//,
         /^\/api\/config\/v\d+$/,
         /^\/api\/platformlogin\/v\d+$/,
