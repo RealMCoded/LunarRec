@@ -1,4 +1,5 @@
 {
+    "__NOTE": "If you need help with the config, check out config-help.md!",
     "instance_info":{
         "name": "LunarRec",
         "description": "A LunarRec Instance",
