@@ -1,4 +1,5 @@
 const { LogType, log } = require("./src/logger.js")
+const fs = require("node:fs")
 
 function random(number) {
     return Math.floor(Math.random() * number)
