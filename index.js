@@ -71,7 +71,7 @@ To read this message again, Delete the file ".first_run" in the root directory o
 `)}
 
     await process.db.users.sync()
-	await process.db.images.sync()
+	//await process.db.images.sync()
 
 	//reset everyone's session to NULL incase it isn't already.
 	try {
