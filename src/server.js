@@ -9,7 +9,7 @@ const app = express()
 const path = require("path")
 const fs = require("fs")
 const { version } = require("../package.json")
-const {getPlayerTotal, getOnlinePlayers, getPlayerArray} = require("./players.js")
+const {getPlayerTotal, getOnlinePlayers, getPlayerArray, playerSearch} = require("./players.js")
 const {token_signature, allow2016AndEarly2017} = require("../config.json")
 const { LogType, log, log_raw } = require("./logger.js")
 if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
@@ -17,9 +17,10 @@ if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
-let uid;
+let uid, plat;
 
 uid = 0
+plat = 0
 
 const authenticateToken = async (req, res, next) => {
     //Add lunarrec version header
@@ -51,7 +52,7 @@ const authenticateToken = async (req, res, next) => {
     }
 
     //old build mode. see why it's insecure now?
-    if(atob(token) === "recroom@againstgrav.com:recnet87" && allow2016AndEarly2017) {
+    if(allow2016AndEarly2017 && atob(token) === "recroom@againstgrav.com:recnet87") {
         return next();
     }
   
@@ -60,6 +61,7 @@ const authenticateToken = async (req, res, next) => {
         return res.sendStatus(403); // Forbidden
       }
       uid = decoded.PlayerId
+      plat = decoded.PlatformId
       next();
     });
 };
@@ -121,6 +123,13 @@ async function serve() {
     app.get(`/api/players/v1/*`, async (req, res) => {
         let body = await require("./datamanager.js").getProfile(uid)
         body = JSON.parse(body)
+        res.send(JSON.stringify(body))
+    })
+
+    app.get(`/api/players/v2/search`, async (req, res) => {
+        console.log(req.query)
+        let body = await playerSearch(req.query.name)
+        console.log(body)
         res.send(JSON.stringify(body))
     })
 
@@ -300,8 +309,8 @@ async function serve() {
     })
 
     app.post(`/api/players/v*/createProfile`, async (req, res) => {
-        log(LogType.Debug, req.body)
-        res.sendStatus(404)
+        let acc = await require("./datamanager.js").createAccount(req.body.Name, plat)
+        res.send(acc)
     })
 
     app.post(`/api/players/v2/displayname`, async (req, res) => {
@@ -315,8 +324,10 @@ async function serve() {
     })
 
     app.post(`/api/players/v1/list`, async (req, res) => {
+        console.log(req.body)
         let resp = await getPlayerArray(req.body)
-        res.send(resp)
+        console.log(resp)
+        res.send(JSON.stringify(resp))
     })
 
     app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
