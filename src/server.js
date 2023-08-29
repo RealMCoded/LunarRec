@@ -1,6 +1,8 @@
-const { targetVersion, port, serverAddress, instance_info, hostPage, logConnections, customPosters } = require("../config.json")
-const db = process.db.users
+//Get variables from other files
+const { targetVersion, port, serverAddress, instance_info, logConnections, customPosters, token_signature, allow2016AndEarly2017 } = require("../config.json")
+const { version } = require("../package.json")
 
+//Required imports
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
 const bodyParser = require("body-parser")
@@ -8,12 +10,13 @@ const jwt = require("jsonwebtoken")
 const app = express()
 const path = require("path")
 const fs = require("fs")
-const { version } = require("../package.json")
-const {getPlayerTotal, getOnlinePlayers, getPlayerArray, playerSearch} = require("./players.js")
-const {token_signature, allow2016AndEarly2017} = require("../config.json")
-const { LogType, log, log_raw } = require("./logger.js")
-if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 
+//custom imports
+const {getPlayerTotal, getOnlinePlayers, getPlayerArray, playerSearch} = require("./players.js")
+const { LogType, log, log_raw } = require("./logger.js")
+
+//enable loggings and JSON encoded bodies
+if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":url" :status - :response-time ms`)))
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
