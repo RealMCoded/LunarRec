@@ -5,10 +5,12 @@ const db = process.db.users
 
 async function getAssociatedAccounts(steamID) {
     let accounts = await db.findAll({where:{linked_steam_id: steamID}})
-    let accountArray = new Array(0)
+    let accountArray = []
 
-    accounts.forEach(element => {
+    accounts.forEach(async element => {
+        //clear session - for builds that don't send logout
         accountArray.push(JSON.parse(makeUserJSONFromDB(element)))
+        await element.update({session: null})
     });
     return accountArray
 }
