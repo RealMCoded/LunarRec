@@ -10,7 +10,7 @@ This project is similar to OpenRec Live or OpenLabs. If you're looking for a ser
 
 ## Disclaimer
 
-This project is not affiliated with [Rec Room](https://recroom.com/) in any way, nor intends to infringe on their copyrights. Distributing old versions of Rec Room is copyright infringement, so that's why LunarRec does not come bundled with Rec Room at all [[source]](https://cdn.discordapp.com/attachments/859438464856490034/1137178290914869248/image.png).
+This project is not affiliated with [Rec Room](https://recroom.com/) in any way, nor intends to infringe on their copyrights. Distributing old versions of Rec Room is copyright infringement, so that's why LunarRec does not come bundled with Rec Room at all.
 
 The LunarRec Project is not responsible for what happens with user hosted servers.
 
@@ -24,13 +24,41 @@ This project is also still in early development stages and is **not** production
 
 - Uses a SQLite database to store user data.
 
-- Uses [JSON Web Tokens](https://jwt.io/) for user authentication.
+- Uses [JSON Web Tokens](https://jwt.io/) for user authentication (can be disabled for older versions).
 
 - Restrict connections to one version.
 
 - Public API that shows Instance Name, Instance Description, Instance Host, Instance Owner, Target Version, ping, Registered Users, Online Users, Server Version.
 
 - Hostable Discord bot to show server information and user stats!
+
+## What does and doesn't work
+
+### What works
+
+- Polaroids
+
+- Profile Images
+
+- Name changing 
+
+- Player searching
+
+### What doesn't work (as of now)
+
+- Proper sessions (private, proper room name and player limits)
+
+- Custom Rooms
+
+- Relationships
+
+- Challenges
+
+- Messages
+
+- Parties
+
+- Leaderboards
 
 ## Setup
 

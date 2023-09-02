@@ -39,4 +39,4 @@
 | `clientID`        | `string`       | The ID of your bot account.                                                                                                             | `"1234567890"`                               |
 | `serverID`        | `string`       | The ID of the server your bot will be in.                                                                                               | `"1234567890"`                               |
 | `instanceOwnerID` | `string`       | Your Discord account ID.                                                                                                                | `"284804878604435476"`                       |
-| `status`          | `object`       | The playing status of your bot. `"type"` is a string can be `"PLAYING"`, `"WATCHING"`, `"LISTENING"`, and `"COMPETING"`. `activity` is a string can be anything. | `{"type":"PLAYING", "activity": "LunarRec"}` |
+| `status`          | `object`       | The playing status of your bot. `"type"` is a string can be `"PLAYING"`, `"WATCHING"`, `"LISTENING"`, and `"COMPETING"`. `activity` is a string and can be anything. | `{"type":"PLAYING", "activity": "LunarRec"}` |
