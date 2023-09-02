@@ -18,3 +18,1235 @@ Loss
 Full Body
 Saija Set
 Bishop Set
+// Official RR Charades words
+David Bowie
+Guitar
+Hipster
+Boxing
+Alien
+Car Crash
+Pole Vault
+Spaghetti
+Titanic
+Video Game
+Moon Landing
+Avatar
+Coal Miner
+Castaway
+League of Legends
+Minecraft
+Pirate
+Submarine
+Luke Skywalker
+Princess Leia
+Spiderman
+Superman
+Wrestling
+Campfire
+Milking a Cow
+Mario
+The Wizard of Oz
+Walking Stick
+Prison
+Cereal
+Shot Put
+Tsunami
+Bulldozer
+Javelin Throw
+Espresso
+Aroma
+Salt and Pepper
+Toast
+Ostrich
+False Teeth
+Lumber Jack
+Vacuum
+Heavy
+Pet
+Fan
+Saxophone
+Antlers
+Jumping Jack 
+Shark 
+Alligator 
+Chair 
+Robot  
+Scissors 
+Cheek 
+Jump 
+Ice Cream Cone 
+Plane 
+Basketball 
+Camera 
+Eat 
+Blink 
+Balloon 
+Book
+Glasses 
+Sneeze 
+Mouth 
+Football 
+Telephone 
+Tail 
+Turtle
+Baby 
+Ear 
+Monkey 
+Hopscotch 
+Ping Pong 
+Snowball 
+Roof 
+Fly 
+Fang 
+Piano 
+Lipstick 
+Hula Hoop 
+Penguin 
+Banana Peel 
+Whisper 
+Popsicle 
+Frankenstein 
+Earthquake 
+Road 
+Alarm Clock 
+Dog Leash 
+Chop 
+Pajamas 
+Slam Dunk 
+Seashell 
+Jog 
+Seesaw 
+Nap 
+Cheerleader 
+Blind 
+Beg 
+CPR
+Shopping Cart 
+Limbo 
+Newspaper 
+Twist 
+Rhinoceros 
+Cow 
+Tickle 
+Fetch 
+Violin 
+Cage 
+Cello 
+Braid 
+Trumpet 
+Mop 
+Shovel
+Cash 
+Soap 
+Wink 
+Tree 
+Windmill 
+Party 
+Lawn Mower 
+Wig 
+Handcuffs 
+Sunburn 
+Hair Dryer 
+Shadow 
+Sip 
+Bathroom 
+Scale 
+Cowboy 
+Doghouse  
+Knot 
+Owl 
+Wrench 
+Story 
+Whisk 
+Spine 
+Artist 
+Gingerbread Man 
+Spider Web 
+Lung 
+Washing Machine 
+Torch 
+Eraser 
+Mouse Trap 
+Swordfish 
+Flamingo 
+Cast 
+Honk 
+Mirror 
+Volcano
+Flag 
+Shipwreck 
+Olympics 
+Satellite 
+Evolution 
+Pendulum
+The Mighty Ducks 
+Indiana Jones 
+Angels in the Outfield 
+E.T. 
+Dumbo 
+Batman 
+Mary Poppins 
+Star Wars 
+James Bond  
+The Lion King
+The Matrix
+Godzilla
+Golf
+Headphones
+Necktie
+Paintbrush
+Mime
+Rubber Ducky 
+Yolk 
+Exercise 
+Dizzy 
+Barber 
+Jazz 
+Download 
+Ski Goggles 
+Oar 
+Shampoo 
+Think 
+Darts 
+Shower Curtain 
+Extension Cord 
+Birthday 
+Pocket 
+Zipper 
+Fiddle 
+Pail 
+Baguette 
+Rib 
+Sushi 
+Ceiling Fan 
+Disco
+Castle
+Post Office 
+Chess 
+Puppet 
+Kangaroo
+Dentist
+Bear Trap
+Cabin 
+Cruise Ship 
+Saturn
+N64
+Dream 
+Recycle 
+Raft 
+Gold 
+Plank 
+Cliff  
+Cape
+Safe
+Picnic 
+Boa Constrictor 
+Hurdle 
+Loveseat 
+Harry Potter
+Cool Runnings
+Bobsled 
+Hot Tub 
+Firefighter
+Cell Phone
+Coach
+Moth
+Wooly Mammoth 
+Bonfire
+Laptop
+Bicycle
+Subway
+Cat
+Ant
+Zebra
+Pizza
+Baseball Bat
+Car
+Pig
+Bull
+Calculator
+Octopus
+Cheese
+Fish Tank
+Starfish
+Eggs
+Toothbrush
+Lemon
+Computer
+Present
+Key
+Silverware
+Water
+Broken Heart
+Love
+Silly String
+Checkers
+Gumball Machine
+City
+Spider
+Wagon
+Tackle
+Princess
+Crown
+Mermaid
+Mushroom
+Mountain
+Brush
+Airport
+Bridge
+Lamp
+Skate
+Tank
+Kitten
+Grapes
+Knight
+Cave
+Eagle
+Rope
+Farmer
+Sidewalk
+Comb
+Rake
+Swiss Cheese
+Pool
+Door
+Skateboard
+Rose
+Rabbit
+Nest
+Root
+Bride
+Horn
+Island
+Paw
+Rowboat
+Tie
+Radio
+Handle
+Rain
+Elevator
+Saddle
+Upside Down
+Elephant
+Baseball
+Ship
+Hot Dog
+Building
+Crab
+Bathtub
+Alarm
+Golf Ball
+Tree House
+Battleship
+Birdhouse
+Yo–Yo
+Belt
+Candy
+Fishing
+Drink
+Globe
+Garage
+Blizzard
+Bumblebee
+Thorn
+Leapfrog
+Mother
+Father
+Dog
+Deodorant
+Chocolate
+Cup
+Church
+Spray
+Grass
+Tissue
+Chicken
+Song
+Forest
+Pillow
+Plant
+Bed
+Notebook
+Ruler
+Speaker
+Stool
+Crutch
+Butterfly
+Cane
+Flower
+Walker
+Gas
+Perfume
+Corn
+Time
+Jack and the Bean Stalk
+United States
+Directions
+Apple
+Hat
+Jacket
+Poison
+Shirt
+Jeans
+Angry
+Ankle
+Time
+Cry
+Cake
+Watering Can
+Boat
+Star Trek
+Pinocchio
+WALL-E
+Balcony
+Lemonade Stand
+Juggle
+Knitting
+Double-sided Tape
+Chainsaw
+Barista
+Old Faithful
+Road Rage
+Assembly Line
+Horsepower
+Amputation
+Rage Quit
+University
+Committee
+Hedge Trimmer
+Thermostat
+Duel
+Shooting Star
+Pogo Stick
+Katniss Everdeen
+Rocket Man
+Monster Truck
+King Kong
+Vampire
+Peter Pan
+Captain Hook
+Three Little Pigs
+Big Bad Wolf
+Ninja
+Scarecrow
+Tin Man
+Devil
+Darth Vader
+Wolverine
+Cyclops
+Medusa
+Drums
+Dice
+Police Officer
+Singer
+Judge
+Gandalf
+Ghost
+Dragon
+Santa Claus
+Tooth Fairy
+Hospital
+Mickey Mouse
+Cat in the Hat
+Doormat
+Windowsill
+Trapeze
+Unicycle
+SCUBA
+Snorkle
+Tiger
+Feather
+Racket
+Build
+Weightlifter
+Emoji
+Plug
+Lightning Bolt
+Zeus
+Caterpillar
+Tornado
+Cupid
+Climb
+Monkey Bars
+Slide
+Microscope
+Breakfast
+Parachute
+Helicopter
+Jump Rope
+Beauty and the Beast
+Mad Hatter
+Queen of Hearts
+Unicorn
+Tow Truck
+Fountain
+Drop Anchor
+Snowman
+Moose
+Gnome
+Rainbow
+Pork Chop
+Jewelry
+Throne
+Witch
+UFO
+Three Musketeers
+Pie
+Brain
+Snail
+Robin Hood
+Stegosaurus
+Willy Wonka
+Mechanic
+Coconut
+Cookie Monster
+Giraffe
+Skull
+DJ
+Joust
+Telescope
+Beehive
+Mummy
+Nail Polish
+Scorpion
+Swing
+Boomerang
+South America
+Asia
+Africa
+Australia
+Antarctica
+Whale
+Dolphin
+Narwhal
+Disc Golf
+Plumber
+Chef
+Walking the Dog
+Fairy Tale
+Treadmill
+Groundhog
+Porcupine
+Centaur
+Soda
+Cookies
+Tea
+Stove
+Oven
+Cooking
+Soup
+Kite
+Trombone
+Canoe
+Hamburger
+Pilot
+Caesar
+Humpty Dumpty
+Bob Ross
+Walrus
+Pillow Fight
+Remote
+Hanger
+Thermometer
+Polka Dots
+Contract
+Signature
+Surgeon
+Sleeve
+Stapler
+Chicken Pox
+Sherlock Holmes
+Sponge
+Umpire
+Pearl
+Sewing Machine
+Freezer
+Belly Button
+Watermelon
+Slot Machine
+Wallet
+Keyboard
+Chimney
+Smoke
+Fleas
+Banjo
+Razor
+Badminton
+Stairs
+Dial
+Waterski
+Lick
+Yo-Yo
+Bubble
+High Heels
+Echo
+Bandage
+Excalibur
+Mosquito
+Envelope
+Bowl
+Bowling Pin
+Bowling Ball
+Whistle
+Diamond
+Suspenders
+Hairspray
+Calendar
+Monk
+Screwdriver
+Earring
+Fireworks
+Waffle
+Bell
+Drive
+Collar
+Money
+Toe
+Balance Beam
+Treasure Chest
+Sleeping Bag
+Tent
+Bib
+Buffet
+Crystal
+Cymbals
+Nametag
+Beak
+Pacifier
+Umbrella
+Shoe
+Gorilla
+Earmuffs
+Idea
+Finish Line
+Angel
+Turtleneck
+Kiss
+Chopsticks
+Coffee
+Whip
+Apron
+Mole
+Pour
+Marbles
+Cork
+Lollipop
+Rat
+Jackhammer
+Bat
+Binoculars
+Tattoo
+Cards
+Bark
+Eyelash
+Sunglasses
+Drill
+Wash
+Closet
+Tennis
+Scarf
+Antenna
+Aquarium
+Refrigerator
+Muscle
+Iron
+Film
+Pipe
+Blindfold
+Stork
+Deer
+Bad Breath
+Garden
+Tug of War
+Sandwich
+Glove
+Fence
+Heartburn
+Moustache
+Hose
+Hypnotize
+Gong
+Hammer
+Mailbox
+Luggage
+Carrot
+Seatbelt
+Clown
+Slingshot
+Jukebox
+Skeleton
+Bait
+Ribbon
+Attic
+Branch
+Candy Cane
+Rug
+Hourglass
+Stethoscope
+Potholder
+Pumpkin
+Lasso
+Cannon
+Harp
+Tambourine
+Poison Ivy
+Snowflake
+Punching Bag
+Puzzle
+Broom
+Earth
+Sky
+Statue
+Doll
+Necklace
+Popcorn
+Lock
+Sofa
+Magnifying Glass
+Surf
+Magic
+Walkie-Talkie
+Floss
+Knife
+Bread
+Thumbtack
+Lighter
+Teapot
+Curls
+Periscope
+Fingerprint
+Mask
+Tape Measure
+Scrub
+Motorcycle
+Fur
+Toothpaste
+Stilts
+Straw
+Doorknob
+Train
+Ukulele
+Nerd
+Bucket
+Conductor
+Palace
+Giant
+Goblin
+Ketchup
+Taxi
+Gravestone
+Croquet
+Tarzan
+Ballerina
+Volleyball
+Braces
+Fork
+Bubble Gum
+Worm
+Ladder
+Dynamite
+Flashlight
+Basement
+Blanket
+Tire
+Whiskers
+Freckle
+Backpack
+Candle
+Jockey
+Stamp
+Television
+Xylophone
+Helmet
+Nightmare
+Map
+Accordion
+Butter
+Tripod
+Spoon
+Microphone
+Mascara
+Sideburns
+Wheelchair
+Pinwheel
+Badge
+Brick
+Trash Can
+Hydrant
+Axe
+Swan
+Blood
+Electricity
+Caveman
+Camel
+Santa
+Shooting Star
+Gift
+Baseball
+Strawberry
+Piano
+Paparazzi
+Tricycle
+Fire Truck
+Ambulance
+Crane
+C3PO
+USS Enterprise
+Spock
+Captain America
+The Hulk
+Hawkeye
+Thor
+Iron Man
+Race Car
+Basketball Hoop
+Gazebo
+Waterfall
+Armadillo
+Anteater
+Elbow
+Knee
+Cut
+Top
+Maze
+Light Bulb
+Kermit the Frog
+North America
+Europe
+Construction Worker
+Doctor
+Cheetah
+Ram
+Robe
+Peas
+Bow Tie
+Samurai
+Viking
+Lighthouse
+Sunscreen
+Archer
+Leaf
+Acorn
+Squirrel
+Meatball
+Eyebrow
+Eye
+Dish
+Frog
+Lizard
+Game of Thrones
+Hulk
+Black Panther
+Soccer
+Tetris
+Zelda
+Trampoline
+Roller Coaster
+Ferris Wheel
+Pin
+Baker
+Restaurant
+Bank
+School
+Rocket
+Jupiter
+Eclipse
+Moon
+Sun
+Comet
+VR
+Fidget Spinner
+Laser
+Elf
+Zombie
+Pegasus
+Noodles
+French Fries
+Break
+Smash
+Pop
+Orange
+Pear
+Potato
+Tomato
+Broccoli
+Eggplant
+Donut
+Bagel
+Seed
+Salad
+Fried Chicken
+Bacon
+Seal
+Polar Bear
+Centipede
+Ladybug
+Grasshopper
+Shrimp
+Electric Eel
+Lobster
+Hammerhead Shark
+Peacock
+Dove
+Raven
+Rattlesnake
+Cobra
+Fox
+Frozen
+Lion
+Actor
+Add
+Alice in Wonderland
+Anchor
+Army
+Art
+Astronaut
+Ball
+Ballet
+Banana
+Barbeque
+Barbie
+Barn
+Bart Simpson
+Basket
+Battery
+Beach
+Beard
+Bedbug
+Beetle
+Big Dipper
+Bikini
+Bite
+Blacksmith
+Blimp
+Block
+Bluetooth
+Board Game
+Bone
+Bonnet
+Bookend
+Bottle
+Bounce
+Bow
+Box
+Boyfriend
+Bugs Bunny
+Bunk Bed
+Burrito
+Butcher
+Button
+Buzz Lightyear
+Camp
+Carpenter
+Carry
+Cashier
+CD
+Cell
+Chain
+Chandelier
+Chart
+Cheeseburger
+Chemistry
+Chocolate Chip
+Cinderella
+Circuit
+Circus
+Close
+Cloud
+Coat
+Cockroach
+Color
+Compass
+Constellation
+Copy
+Corndog
+Count Dracula
+Country
+Cucumber
+Cupcake
+Curtains
+Cymbal
+Daffy Duck
+Dance
+Dimple
+Dinner
+Dinosaur
+Disk
+Dodge
+Door Knob
+Dragonfly
+Drain
+Drawbridge
+Dress
+Duck
+Ears
+Edge
+Eel
+Eeyore
+Eiffel Tower
+Einstein
+Elmo
+Fall
+Family
+Faucet
+Feast
+Finger
+Fire
+Fire Hydrant
+Fireplace
+Fish
+Fishing Pole
+Flag Pole
+Flood
+Flute
+Foot
+Frame
+Frisbee
+Fruit
+Full Moon
+Funnel
+Galaxy
+Game Boy
+Garbage
+Gate
+Ghostbusters
+Girlfriend
+Glue
+Goal
+Goldfish
+Goofy
+Graduation
+Grandma
+Graph
+Ground
+Hair
+Haircut
+Halo
+Headband
+Highchair
+Hockey
+Honey
+Horns
+Horse
+Hour
+House
+Houseboat
+Hug
+Ice
+Ice Cube
+Ice Fishing
+Igloo
+Invitation
+Ironing Board
+Jelly Bean
+Jumbotron
+Jungle
+Junk Mail
+Lady Bug
+Lake
+Lamp Post
+Leg
+Lego
+Leprechaun
+Letter Opener
+Lettuce
+Librarian
+Library
+Light Switch
+Lily Pad
+Lunch
+Lunchbox
+Macaroni
+Machine
+Magician
+Magnet
+Mail
+Makeup
+Meat
+Mess
+Meteor
+Milk
+Mine Cart
+Minnie Mouse
+Minute
+Moat
+Moby Dick
+Monocle
+Mouse
+Mud
+Music
+Neck
+Net
+Night
+North Pole
+Ocean
+Olive Oil
+Onion
+Open
+Page
+Paintball
+Paintball Gun
+Pancakes
+Paper
+Paper Clip
+Paper Plane
+Peak
+Peanut
+Pen
+Pencil
+People
+Photograph
+Photographer
+Pigeon
+Piglet
+Pikachu
+Pine Tree
+Pineapple
+Plankton
+Plate
+Pluto
+Police
+Pony
+Poodle
+Portal
+Pound
+Power Line
+President
+Pretzel
+Printer
+Purse
+Push Up
+Quicksand
+Race
+Railroad
+Rapunzel
+Rice
+Ring
+River
+Rocking Chair
+Rollerblade
+Rollercoaster
+Rolling Pin
+Root Beer
+Sailboat
+Sand
+Sand Castle
+Sandbox
+Saw
+Scooby-Doo
+Seahorse
+Seat Belt
+Shakespeare
+Sheep
+Shoelaces
+Shoulder
+Shower
+Silhouette
+Sit-Up
+Skunk
+Smartphone
+Sock
+Solar Eclipse
+Solar System
+Sombrero
+Sonic the Hedgehog
+South
+Space
+Spin
+Spongebob Squarepants
+Spring
+Spy
+Square
+Stable
+Stage
+Star
+Steak
+Stick
+Stingray
+Stomach
+Storm
+Strong
+Suitcase
+Summer
+Sunflower
+Sunshine
+Superhero
+Surfboard
+Sword
+Tailor
+Tall
+Teacher
+Teepee
+Text
+The Beatles
+The Grinch
+Tigger
+Time Machine
+Toes
+Tongue
+Towel
+Tower
+Traffic Light
+Treasure
+Tree Branch
+Tree Stump
+Trophy
+Tugboat
+Turkey
+Tweety Bird
+Vase
+Vegetable
+Vest
+Video
+Virtual Reality
+Waiter
+Waldo
+Watch
+Water Bottle
+Wave
+Wax
+Wedding Cake
+Wheelbarrow
+Wifi
+Wind
+Window
+Wing
+Winnie the Pooh
+Winter
+Wonder Woman
+Woody Woodpecker
+Wreath
+Writing
+X-Ray
+Yard
+Bake
+Black Hole
+Brainstorm
+Buy
+Donald Duck
+E-mail
+Electrician
+Explore
+Internet
+Lab
+Level
+Marriage
+Mine
+Movie
+Programmer
+Scent
+Sell
+Shaggy
+Shelter
+Shrink
+Teleport
+USB
+Virus
+Wedding
+Go Kart
+Theater
+Lucky Charms
+Acid Rain
+Dead Batteries
+Glass
+Tyrannosaurus Rex
