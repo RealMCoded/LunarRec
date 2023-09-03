@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const chalk = require('chalk')
-const Sequelize = require('sequelize');
 const child_process = require('child_process')
 const { version } = require("./package.json")
 const fs = require('fs');
@@ -14,7 +13,7 @@ if (!fs.existsSync("./config.json")) {
 log(LogType.Debug, "Debug Logging Enabled!")
 
 const { discord_bot, token_signature, allow2016AndEarly2017 } = require("./config.json")
-const { sendWebhook } = require("./src/webhook.js")
+const { webhookMessage } = require("./src/webhook.js")
 
 //Token Signature Warnings
 if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
@@ -92,9 +91,10 @@ To read this message again, Delete the file ".first_run" in the root directory o
 		require('./src/bot/index.js')
 	}
 
+	//start the server
     require('./src/server.js').start()
 
-	sendWebhook("✅ **This LunarRec instance has started!**")
+	webhookMessage(0, "")
 }
 
 start()
