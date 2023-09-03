@@ -2,7 +2,7 @@
 const { targetVersion, port, serverAddress, instance_info, logConnections, customPosters, token_signature, allow2016AndEarly2017 } = require("../config.json")
 const { version } = require("../package.json")
 
-//Required imports
+//Import Modules
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
 const bodyParser = require("body-parser")
@@ -11,7 +11,8 @@ const app = express()
 const path = require("path")
 const fs = require("fs")
 
-//custom imports
+//Import custom modules
+const datamanager = require("./datamanager.js")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray, playerSearch} = require("./players.js")
 const { LogType, log, log_raw } = require("./logger.js")
 
@@ -20,11 +21,10 @@ if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
-let uid, plat;
+// define template vars for userid and platform
+let uid = 0, plat = 0;
 
-uid = 0
-plat = 0
-
+//Authentication
 const authenticateToken = async (req, res, next) => {
     //Add lunarrec version header
     res.set('x-LunarRec-Version', version)
@@ -32,6 +32,7 @@ const authenticateToken = async (req, res, next) => {
     // Define an array of endpoints that do not require authorization
     const loginEndpoints = [
         /^\/$/,
+        /^\/img\/\d+$/,
         /^\/api\/stats/,
         /^\/api\/versioncheck\//,
         /^\/api\/config\/v\d+$/,
@@ -55,9 +56,12 @@ const authenticateToken = async (req, res, next) => {
     }
 
     //old build mode. see why it's insecure now?
-    if(allow2016AndEarly2017 && atob(token) === "recroom@againstgrav.com:recnet87") {
-        return next();
-    }
+    try {
+        if(allow2016AndEarly2017 && Buffer.from(token).toString('base64') === "recroom@gmail.com:recnet87") {
+            uid = req.headers['x-rec-room-profile']
+            return next();
+        }
+    } catch(e) {}
   
     jwt.verify(token, token_signature, (err, decoded) => {
       if (err) {
@@ -68,14 +72,6 @@ const authenticateToken = async (req, res, next) => {
       next();
     });
 };
-
-async function start() {
-    try {
-        serve()
-    } catch(e){
-        log(LogType.Error, e)
-    }
-}
 
 async function serve() {
     app.use(authenticateToken);
@@ -124,7 +120,7 @@ async function serve() {
     })
 
     app.get(`/api/players/v1/*`, async (req, res) => {
-        let body = await require("./datamanager.js").getProfile(uid)
+        let body = await datamanager.getProfile(uid)
         body = JSON.parse(body)
         res.send(JSON.stringify(body))
     })
@@ -153,7 +149,7 @@ async function serve() {
     })
 
     app.get(`/api/players/v1/phonelastfour`, async (req, res) => {
-        res.send("2419")
+        res.send("{\"PhoneNumber\":\"PHONE NUMBERS ARE NOT SUPPORTED\"}")
     })
 
     app.get(`/api/players/v1/search/*`, async (req, res) => {
@@ -232,6 +228,20 @@ async function serve() {
         }
     })
 
+    app.get('/api/images/v1/profile/:id', (req, res) => {
+        try {
+            const id = req.params.id
+            let filedir;
+            filedir = `${__dirname}/../cdn/profileImages/${id}.png`;
+            if (fs.existsSync(filedir)) {
+                res.sendFile(path.resolve(filedir))
+            } else {
+                res.sendStatus(404)
+            }
+        } catch(e) {
+            res.sendStatus(500)
+        }
+    })
     
     app.get('/api/images/v1/named', (req, res) => {
         if (customPosters) {
@@ -253,9 +263,9 @@ async function serve() {
     app.post(`/api/players/v1/getorcreate`, async (req, res) => {
         if (allow2016AndEarly2017) {
             body = req.body.PlatformId
-            let accs = await require("./datamanager.js").getAssociatedAccounts(body)
+            let accs = await datamanager.getAssociatedAccounts(body)
             if (accs.length == 0) {
-                let acc = await require("./datamanager.js").createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
+                let acc = await datamanager.createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
                 accs = [JSON.parse(acc)]
             }
 
@@ -271,9 +281,9 @@ async function serve() {
 
     app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
         body = req.body.PlatformId
-        let accs = await require("./datamanager.js").getAssociatedAccounts(body)
+        let accs = await datamanager.getAssociatedAccounts(body)
         if (accs.length == 0) {
-            let acc = await require("./datamanager.js").createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
+            let acc = await datamanager.createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
             accs = [JSON.parse(acc)]
         }
 
@@ -287,13 +297,17 @@ async function serve() {
         delete body_JWT.BuildTimestamp
         delete body_JWT.DeviceId
 
-        const token = jwt.sign(req.body, token_signature, {expiresIn: "24h"});
+        const token = jwt.sign(req.body, token_signature, {expiresIn: "12h"});
         res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
     })
 
     app.post('/api/images/v*/profile', async (req, res) => {
         await require("./image.js").setPFP(uid, req)
-        res.sendStatus(200);
+        res.send(JSON.stringify({ImageName: uid}))
+    })
+
+    app.post(`/api/players/v2/phone`, async (req, res) => {
+        res.send(JSON.stringify({Success:false, Message:"Phone Numbers are not supported!"}))
     })
 
     app.post('/api/images/v*/uploadtransient', async (req, res) => {
@@ -312,12 +326,12 @@ async function serve() {
     })
 
     app.post(`/api/players/v*/createProfile`, async (req, res) => {
-        let acc = await require("./datamanager.js").createAccount(req.body.Name, plat)
+        let acc = await datamanager.createAccount(req.body.Name, plat)
         res.send(acc)
     })
 
     app.post(`/api/players/v2/displayname`, async (req, res) => {
-        let newname = await require("./datamanager.js").setName(uid, req.body)
+        let newname = await datamanager.setName(uid, req.body)
         res.send(JSON.stringify(newname))
     })
 
@@ -352,6 +366,14 @@ async function serve() {
         log(LogType.Info, `Server started on port ${port}`)
         require("./ws.js").serve(server)
     })
+}
+
+async function start() {
+    try {
+        serve()
+    } catch(e){
+        log(LogType.Error, e)
+    }
 }
 
 module.exports = { start }
