@@ -74,6 +74,11 @@ const authenticateToken = async (req, res, next) => {
 };
 
 async function serve() {
+    app.use((req, res, next) => {
+        log(LogType.Debug, `[${req.method.toUpperCase()} "${req.url}"] API Request: ${JSON.stringify(req.body)}`)
+        next()
+    })
+
     app.use(authenticateToken);
 
     //Name Server
