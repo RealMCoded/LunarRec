@@ -5,14 +5,19 @@ async function admin() {
     const db = process.db;
     const readline = require('readline')
     const fs = require("node:fs")
+    const jwt = require("jsonwebtoken")
+    const { token_signature} = require("../config.json")
+    const { version } = require("../package.json")
+
     const cmd = readline.createInterface(process.stdin, process.stdout);
     cmd.setPrompt('> ')
     cmd.prompt();
     cmd.on('line', async line => {
         command = line.split(' ')
+        console.log("")
         switch (command[0]) {
             case '': {} break;
-            case 'help': {console.log('help - displays this\nexit - exit the admin panel\neval - evaluates code\ncreate - create a user\ndelete - delete a user\ntoggle-dev - toggle a users "developer" status.');} break;
+            case 'help': {console.log('help - displays this\nexit - exit the admin panel\neval - run js code\ncreate - create a user\ndelete - delete a user\ntoggle-dev - toggle a users "developer" status.\ncreate-auth-token - create a temporary 30 minute auth token for development purposes.\ntoken-info - get info about a token');} break;
             case 'exit': {console.log("Bye!"); cmd.close(); process.exit(0);} break;
             case 'eval': {
                 try {
@@ -52,7 +57,7 @@ async function admin() {
                 }
             } break;
             case 'toggle-dev': {
-                if (command.length-1 != 2) return console.log("usage: toggle-dev id <id>\n      set-dev id <username>")
+                if (command.length-1 != 2) return console.log("usage: toggle-dev id <id>\n      set-dev username <username>")
 
                 try {
                     if (command[1] == "id") {
@@ -69,6 +74,45 @@ async function admin() {
                 } catch(e) {
                     console.log(`An error happened while executing that command! ${e}`)
                 }
+            } break;
+            case 'create-auth-token': {
+                if (command.length-1 != 1) return console.log("usage: create-auth-token <id>")
+
+                try {
+                    var user = await db.users.findOne({where:{id: command[1]}})
+
+                    let token_temp = {
+                        Platform: '0',
+                        PlatformId: user.linked_steam_id,
+                        Name: user.username,
+                        AppVersion: `LunarRec_${version}_${process.commit}`,
+                        ClientTimestamp: Math.floor(Date.now() / 1000),
+                        PlayerId: command[1],
+                        Verify: 'AdminPanelToken'
+                    }
+
+                    const token = jwt.sign(token_temp, token_signature, {expiresIn: "30m"});
+
+                    console.log(`Your auth token is "${token}"\n\nExpires in 30 minutes. Don't share with anyone else.`)
+                } catch(e) {
+                    console.log(`Something bad happened! ${e.message}`)
+                }
+            } break;
+            case 'token-info': {
+                if (command.length-1 != 1) return console.log("usage: token-info <token>")
+
+                jwt.verify(command[1], token_signature, (err, decoded) => {
+                    if (err) {
+                        let err_msg = err
+                        switch(err.message) {
+                            case "jwt expired": {err_msg = `The token you have provided has expired.`}
+                            case "invalid signature": {err_msg = `The token you have provided has an invalid signature.`}
+                        }
+                        return console.log(`Something bad happened! ${err_msg}`)
+                    }
+
+                    console.log(decoded)
+                  });
             } break;
             case 'announce': {
                 if (command.length-1 != 1) return console.log("usage: announce <message>")
