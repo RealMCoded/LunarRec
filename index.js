@@ -28,6 +28,7 @@ if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
 	log(LogType.Warn, "Please change this variable to something long and unique before making this server public to other players.")
 }
 
+//Old version warning
 if (allow2016AndEarly2017) {
 	log(LogType.Warn, "⚠️EARLY BUILD MODE ENABLED⚠️")
 	log(LogType.Warn, "This server has \"allow2016AndEarly2017\" in the config set to true.")
@@ -35,7 +36,6 @@ if (allow2016AndEarly2017) {
 	log(LogType.Warn, "Please disable old build mode if you aren't supporting 2016 and early 2017 builds.")
 }
 
-//load colors
 let colors = require('./colors.json')
 
 try{process.commit = child_process.execSync('git rev-parse HEAD').toString().substring(0, 7)} catch(e) {process.commit = "[git not installed]"}
@@ -87,7 +87,7 @@ To read this message again, Delete the file ".first_run" in the root directory o
 		//push commands
 		require(`./src/bot/deploy.js`)
 
-		//start the uhhh bot
+		//start the bot
 		require('./src/bot/index.js')
 	}
 

@@ -33,14 +33,20 @@ async function webhookMessage(type, data){
       case dataType.PlayerOnline: {
         embedData.color = 35890
         embedData.title = "Player online!"
-        embedData.description = `Player "${data.name}" is now online!`
+        embedData.description = `**${data.username}** is now online!`
         embedData.icon = `${serverAddress}/img/${data.id}`
       } break;
       case dataType.PlayerOffine: {
         embedData.color = 16526123
         embedData.title = "Player offline."
-        embedData.description = `Player "${data.name}" is now offline.`
+        embedData.description = `**${data.username}** is now offline.`
         embedData.icon = `${serverAddress}/img/${data.id}`
+      } break;
+      case dataType.AccountCreate: {
+        embedData.color = 35890
+        embedData.title = "Account created!"
+        embedData.description = `Welcome "**${data.username}**" to LunarRec!`
+        //embedData.icon = `${serverAddress}/img/${data.id}`
       } break;
       default: {
         embedData.color = 0

@@ -1,5 +1,6 @@
 const { makeUserJSONFromDB } = require("../util.js")
 const fs = require("fs")
+const { dataType, webhookMessage } = require("./webhook.js")
 
 const db = process.db.users
 
@@ -21,19 +22,15 @@ async function createAccount(uname, steamID) {
             if (err) throw err;
     })
 
+    webhookMessage(dataType.AccountCreate, user)
+
     return makeUserJSONFromDB(user);
 }
 
 async function getProfile(uid) {
-    let [ userdata, justCreated ] = await db.findOrCreate({ where: {id: uid} })
+    let userdata= await db.findOne({ where: {id: uid} })
 
-    //this code will only execute if the user is new to LunarRec
-    if (userdata.username == null) {
-        userdata.update({ username: `LunarRecUser_${userdata.id}`, display_name: `LunarRecUser_${userdata.id}` })
-        fs.copyFile('./cdn/profileImages/__default.png', `./cdn/profileImages/${userdata.id}.png`, (err) => {
-            if (err) throw err;
-        })
-    }
+    webhookMessage(dataType.PlayerOnline, userdata)
 
     return makeUserJSONFromDB(userdata);
 }
@@ -47,7 +44,7 @@ async function setName(uid, req) {
 
     try {
         await userdata.update({ username: decodeURIComponent(data), display_name: decodeURIComponent(data).replace(/ /g,"_") })
-        return {Success: false, Message: `Name changed to "${newname}"! Changes will be visible when client is restarted.`};
+        return {Success: false, Message: `Name changed to "${newname}"! Restart to view changes.`};
     } catch(e) {
         if (e.name === 'SequelizeUniqueConstraintError') {
             return {Success: false, Message: `Name "${newname}" is already in use!`};
