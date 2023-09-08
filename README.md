@@ -44,6 +44,8 @@ This project is also still in early development stages and is **not** production
 
 - Player searching
 
+- Bans*
+
 ### What doesn't work (as of now)
 
 - Proper sessions (private, proper room name and player limits)
@@ -59,6 +61,8 @@ This project is also still in early development stages and is **not** production
 - Parties
 
 - Leaderboards
+
+*\* work in progress feature, only somewhat works.* 
 
 ## Setup
 

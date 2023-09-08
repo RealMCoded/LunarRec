@@ -53,9 +53,24 @@ const users = sequelize.define('users', {
   },
   moderation:{
     type: Sequelize.STRING,
-    defaultValue: JSON.stringify({banned: false, reason: "", expires: ""})
+    defaultValue: JSON.stringify({banned: false, reason: "", expires: 0})
   }
 });
+
+/**
+ * Unused tables for now, they are defined but never used anywhere in the code.
+ * For eventual future use if I ever add them.
+ */
+
+const leaderboards = sequelize.define('leaderboards', {
+  room: {
+    type: Sequelize.STRING,
+  },
+  stats: {
+    type: Sequelize.STRING,
+    defaultValue: JSON.stringify({})
+  }
+})
 
 const rooms = sequelize.define('rooms', {
   name:{
@@ -84,4 +99,4 @@ const images = sequelize.define('images', {
   }
 })
 
-module.exports = { users, rooms, images }
+module.exports = { users }
