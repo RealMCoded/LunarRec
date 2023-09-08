@@ -54,4 +54,29 @@ async function setName(uid, req) {
     }
 }
 
-module.exports = { createAccount, getAssociatedAccounts, getProfile, setName }
+async function getModerationStatus(uid) {
+    let status = {
+        isBanned: false,
+        data: {}
+    }
+
+    let userdata = await db.findOne({ where: {id: uid} })
+
+    userdata.moderation = JSON.parse(userdata.moderation)
+
+    console.log(userdata.moderation)
+
+    if (userdata.moderation.banned === true) {
+        status.isBanned = true
+        status.data = {
+            reason: userdata.moderation.reason,
+            expires: Math.floor(Date.now() / 1000) - userdata.moderation.expires
+        }
+    } else {
+        status.isBanned = false
+    }
+
+    return status
+}
+
+module.exports = { createAccount, getAssociatedAccounts, getProfile, setName, getModerationStatus }

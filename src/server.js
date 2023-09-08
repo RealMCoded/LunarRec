@@ -165,8 +165,14 @@ async function serve() {
         res.send(JSON.stringify({AmplitudeKey: "NoKeyProvided"}))
     })
 
-    app.get('/api/PlayerReporting/v1/moderationBlockDetails', (req, res) => {
-        res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
+    app.get('/api/PlayerReporting/v1/moderationBlockDetails', async (req, res) => {
+        let modstat = await datamanager.getModerationStatus(uid)
+        console.log(modstat)
+        if (modstat.isBanned) {
+            res.send(JSON.stringify({"ReportCategory":1,"Duration":600,"GameSessionId":-2000,"Message":`Moderator note: "${modstat.data.reason}".\nContact instance host to appeal`}))
+        } else {
+            res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
+        }
     })
 
     app.get(`/api/avatar/v2`, async (req, res) => {
