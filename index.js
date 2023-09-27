@@ -19,7 +19,7 @@ const { webhookMessage } = require("./src/webhook.js")
 if (token_signature === "LunarRec_ReplaceMeWithSomethingElsePlz") {
 	log(LogType.Warn, "⚠️SECURITY RISK DETECTED - CHANGE YOUR JWT TOKEN SIGNATURE⚠️")
 	log(LogType.Warn, "Your \"token_signature\" in your config is still set to the default value! (LunarRec_ReplaceMeWithSomethingElsePlz)")
-	log(LogType.Warn, "This means anyone can create JWT tokens and log into anyones account that is on this server!")
+	log(LogType.Warn, "This means anyone can create JWT tokens and log into any account that is on this server!")
 	log(LogType.Warn, "Please change this variable to something long and unique before making this server public to other players.")
 } else if (token_signature.length < 10) {
 	log(LogType.Warn, "⚠️SECURITY RISK DETECTED - CHANGE YOUR JWT TOKEN SIGNATURE⚠️")

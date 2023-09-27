@@ -65,7 +65,7 @@ async function admin() {
                         await user.update({isDev: !user.isDev})
                         console.log(`Dev mode set to "${user.isDev}" for user ID "${command[2]}"`)
                     } else if (command[1] == "username") {
-                        var user = await db.users.findOne({username:{id: command[2]}})
+                        var user = await db.users.findOne({where:{username: command[2]}})
                         await user.update({isDev: !user.isDev})
                         console.log(`Dev mode set to "${user.isDev}" for user with username "${command[2]}"`)
                     } else {
@@ -113,6 +113,44 @@ async function admin() {
 
                     console.log(decoded)
                   });
+            } break;
+            case 'ban': {
+                if (command.length-1 != 4) return console.log("usage: ban username <username> <duration> <message>\n        ban id <id> <duration> <message>")
+
+                try {
+                    if (command[1] == "id") {
+                        var user = await db.users.findOne({where:{id: command[2]}})
+                        await user.update({moderation: JSON.stringify({"banned":true,"reason":command[4],"expires":command[3]})})
+                        console.log(`Banned user "${user.username}" (ID:${command[2]}) for ${command[3]} seconds with reason "${command[4]}"`)
+                    } else if (command[1] == "username") {
+                        var user = await db.users.findOne({where:{username: command[2]}})
+                        await user.update({moderation: JSON.stringify({"banned":true,"reason":command[4],"expires":command[3]})})
+                        console.log(`Banned user "${command[2]}" (ID:${user.id}) for ${command[3]} seconds with reason "${command[4]}"`)
+                    } else {
+                        console.log(`Invalid mode specified. Expected "id" or "username", got "${command[1]}"`)
+                    }
+                } catch(e) {
+                    console.log(`An error happened while executing that command! ${e}`)
+                }
+            } break;
+            case 'unban': {
+                if (command.length-1 != 2) return console.log("usage: unban username <username>\n        ban id <id>")
+
+                try {
+                    if (command[1] == "id") {
+                        var user = await db.users.findOne({where:{id: command[2]}})
+                        await user.update({moderation: JSON.stringify({"banned":false,"reason":"","expires":""})})
+                        console.log(`Unbanned user "${user.username}" (ID:${command[2]})`)
+                    } else if (command[1] == "username") {
+                        var user = await db.users.findOne({where:{username: command[2]}})
+                        await user.update({moderation: JSON.stringify({"banned":false,"reason":"","expires":""})})
+                        console.log(`Unbanned user "${command[2]}" (ID:${user.id})`)
+                    } else {
+                        console.log(`Invalid mode specified. Expected "id" or "username", got "${command[1]}"`)
+                    }
+                } catch(e) {
+                    console.log(`An error happened while executing that command! ${e}`)
+                }
             } break;
             case 'announce': {
                 if (command.length-1 != 1) return console.log("usage: announce <message>")
