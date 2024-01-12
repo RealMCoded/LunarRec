@@ -52,4 +52,15 @@ function resetServerData() {
 	process.exit()
 }
 
-module.exports = { random, makeUserJSONFromDB, resetServerData }
+function clearImages() { 
+	log(LogType.Info, "Deleting Share Cam Images...")
+	let dir_img = "./cdn/images/"
+	const files_img = fs.readdirSync(dir_img);
+	files_img.forEach((file) => {
+		if (file === ".gitkeep") return;
+		fs.unlinkSync(`${dir_img}/${file}`);
+	});
+    log(LogType.Info, "Cleared!")
+}
+
+module.exports = { random, makeUserJSONFromDB, resetServerData, clearImages }

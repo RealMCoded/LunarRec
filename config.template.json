@@ -12,6 +12,7 @@
     "targetVersion": null,
     "customPosters": false,
     "allow2016AndEarly2017": false,
+    "clearImageCacheOnLaunch": true,
     "port": 2017,
     "token_signature":"LunarRec_ReplaceMeWithSomethingElsePlz",
     "webhook":{
