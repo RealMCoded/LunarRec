@@ -96,6 +96,7 @@ async function serve() {
             website: instance_info.website,
             targetVersion: targetVersion,
             ping: undefined, //TODO: Calculate Ping
+            secure: allow2016AndEarly2017,
             users:{
                 registered: await getPlayerTotal(),
                 online: await getOnlinePlayers()
@@ -154,7 +155,7 @@ async function serve() {
     })
 
     app.get(`/api/players/v1/phonelastfour`, async (req, res) => {
-        res.send("{\"PhoneNumber\":\"PHONE NUMBERS ARE NOT SUPPORTED\"}")
+        res.send("{\"PhoneNumber\":\"PHONE NUMBERS ARE NOT SUPPORTED!\"}")
     })
 
     app.get(`/api/players/v1/search/*`, async (req, res) => {
