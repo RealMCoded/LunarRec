@@ -32,7 +32,7 @@ const authenticateToken = async (req, res, next) => {
     // Define an array of endpoints that do not require authorization
     const loginEndpoints = [
         /^\/$/,
-        /^\/img\/\d+$/,
+        /^\/img\/.+$/,
         /^\/api\/stats/,
         /^\/api\/versioncheck\//,
         /^\/api\/config\/v\d+$/,
@@ -122,6 +122,7 @@ app.get('/api/stats', async (req, res) => {
 /* ROUTES */
 app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/ requests
 app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/ requests
+app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/ requests
 
 /**
  * GET REQUESTS
@@ -213,34 +214,6 @@ app.get('/img/:id', (req, res) => {
     }
 })
 
-app.get('/api/images/v1/profile/:id', (req, res) => {
-    try {
-        const id = req.params.id
-        let filedir;
-        filedir = `${__dirname}/../cdn/profileImages/${id}.png`;
-        if (fs.existsSync(filedir)) {
-            res.sendFile(path.resolve(filedir))
-        } else {
-            res.sendStatus(404)
-        }
-    } catch(e) {
-        res.sendStatus(500)
-    }
-})
-
-app.get('/api/images/v1/named', (req, res) => {
-    if (customPosters) {
-        const filedir = `${__dirname}/../cdn/posters/${req.query.img}.png`
-        if (fs.existsSync(filedir)) {
-            res.sendFile(path.resolve(filedir))
-        } else {
-            res.sendStatus(404)
-        }
-    } else {
-        res.sendStatus(404)
-    }
-})
-
 /**
  * POST REQUESTS
  */
@@ -269,21 +242,6 @@ app.post('*/api/platformlogin/v*/', async (req, res) => {
 
     const token = jwt.sign(req.body, token_signature, {expiresIn: "12h"});
     res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
-})
-
-app.post('/api/images/v*/profile', async (req, res) => {
-    await require("./image.js").setPFP(uid, req)
-    res.send(JSON.stringify({ImageName: uid}))
-})
-
-app.post('/api/images/v*/uploadtransient', async (req, res) => {
-    var img = await require("./image.js").uploadImg(true, uid, req)
-    res.send(img)
-})
-
-app.post('/api/images/v*/deletetransient', async (req, res) => {
-    await require("./image.js").deleteImg(req)
-    res.sendStatus(200)
 })
 
 app.post(`/api/settings/v2/set`, async (req, res) => {
