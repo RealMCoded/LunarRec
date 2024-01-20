@@ -61,6 +61,7 @@ const authenticateToken = async (req, res, next) => {
     try {
         if(allow2016AndEarly2017 && Buffer.from(token).toString('base64') === "recroom@gmail.com:recnet87") {
             uid = req.headers['x-rec-room-profile']
+            req.uid = req.headers['x-rec-room-profile']
             return next();
         }
     } catch(e) {}
@@ -71,6 +72,10 @@ const authenticateToken = async (req, res, next) => {
       }
       uid = decoded.PlayerId
       plat = decoded.PlatformId
+
+      //Move the definitions for uid and plat into the request itself, better for when we move to routes
+      req.uid = decoded.PlayerId
+      req.plat = decoded.PlatformId
       next();
     });
 };
@@ -114,6 +119,9 @@ app.get('/api/stats', async (req, res) => {
     })
 })
 
+/* ROUTES */
+app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/ requests
+
 /**
  * GET REQUESTS
  */
@@ -131,41 +139,12 @@ app.get('/api/versioncheck/*', (req, res) => {
     }
 })
 
-app.get(`/api/players/v1/*`, async (req, res) => {
-    let body = await datamanager.getProfile(uid)
-    body = JSON.parse(body)
-    res.send(JSON.stringify(body))
-})
-
-app.get(`/api/players/v2/search`, async (req, res) => {
-    console.log(req.query)
-    let body = await playerSearch(req.query.name)
-    console.log(body)
-    res.send(JSON.stringify(body))
-})
-
-app.get(`/api/players/v1/list`, async (req, res) => {
-    res.send("[]")
-})
-
-app.get(`/api/players/v1/blockduration`, async (req, res) => {
-    res.send("[]")
-})
-
 app.get(`/api/gamesessions/v1/*`, async (req, res) => {
     res.send("[]")
 })
 
 app.get(`/api/events/v*/list`, async (req, res) => {
     res.send("[]")
-})
-
-app.get(`/api/players/v1/phonelastfour`, async (req, res) => {
-    res.send("{\"PhoneNumber\":\"PHONE NUMBERS ARE NOT SUPPORTED!\"}")
-})
-
-app.get(`/api/players/v1/search/*`, async (req, res) => {
-    res.sendStatus(404)
 })
 
 app.get('/api/config/v1/amplitude', (req, res) => {
@@ -278,21 +257,6 @@ app.get('/api/images/v1/named', (req, res) => {
  * POST REQUESTS
  */
 
-app.post(`/api/players/v1/getorcreate`, async (req, res) => {
-    if (allow2016AndEarly2017) {
-        body = req.body.PlatformId
-        let accs = await datamanager.getAssociatedAccounts(body)
-        if (accs.length == 0) {
-            let acc = await datamanager.createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
-            accs = [JSON.parse(acc)]
-        }
-
-        res.send(JSON.stringify(accs[0]))
-    } else {
-        res.sendStatus(405)
-    }
-})
-
 app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
     res.send("[]")
 })
@@ -305,7 +269,7 @@ app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
         accs = [JSON.parse(acc)]
     }
 
-    res.send(JSON.stringify([accs[0]]))
+    res.send(JSON.stringify(accs))
 })
 
 app.post('*/api/platformlogin/v*/', async (req, res) => {
@@ -324,10 +288,6 @@ app.post('/api/images/v*/profile', async (req, res) => {
     res.send(JSON.stringify({ImageName: uid}))
 })
 
-app.post(`/api/players/v2/phone`, async (req, res) => {
-    res.send(JSON.stringify({Success:false, Message:"Phone Numbers are not supported!"}))
-})
-
 app.post('/api/images/v*/uploadtransient', async (req, res) => {
     var img = await require("./image.js").uploadImg(true, uid, req)
     res.send(img)
@@ -343,26 +303,9 @@ app.post(`/api/settings/v2/set`, async (req, res) => {
     res.send("[]")
 })
 
-app.post(`/api/players/v*/createProfile`, async (req, res) => {
-    let acc = await datamanager.createAccount(req.body.Name, plat)
-    res.send(acc)
-})
-
-app.post(`/api/players/v2/displayname`, async (req, res) => {
-    let newname = await datamanager.setName(uid, req.body)
-    res.send(JSON.stringify(newname))
-})
-
 app.post(`/api/avatar/v2/set`, async (req, res) => {
     await require("./avatar.js").saveAvatar(uid, req.body)
     res.send("[]")
-})
-
-app.post(`/api/players/v1/list`, async (req, res) => {
-    console.log(req.body)
-    let resp = await getPlayerArray(req.body)
-    console.log(resp)
-    res.send(JSON.stringify(resp))
 })
 
 app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
