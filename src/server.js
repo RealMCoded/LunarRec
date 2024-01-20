@@ -121,6 +121,7 @@ app.get('/api/stats', async (req, res) => {
 
 /* ROUTES */
 app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/ requests
+app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/ requests
 
 /**
  * GET REQUESTS
@@ -161,15 +162,6 @@ app.get('/api/PlayerReporting/v1/moderationBlockDetails', async (req, res) => {
     }
 })
 
-app.get(`/api/avatar/v2`, async (req, res) => {
-    let body = await require("./avatar.js").loadAvatar(uid)
-    res.send(body)
-})
-
-app.get(`/api/avatar/v3/items`, async (req, res) => {
-    res.sendFile(path.resolve(`${__dirname}/../shared-items/avataritems.txt`))
-})
-
 app.get(`/api/settings/v2`, async (req, res) => {
     let body = await require("./settings.js").loadSettings(uid)
     res.send(body)
@@ -181,10 +173,6 @@ app.get('/api/equipment/v1/getUnlocked', (req, res) => {
 
 app.get('/api/activities/charades/v1/words', (req, res) => {
     res.send(require("./charades.js").generateCharades())
-})
-
-app.get('/api/avatar/v2/gifts', (req, res) => {
-    res.send("[]")
 })
 
 app.get('/api/relationships/v2/get', (req, res) => {
@@ -300,11 +288,6 @@ app.post('/api/images/v*/deletetransient', async (req, res) => {
 
 app.post(`/api/settings/v2/set`, async (req, res) => {
     await require("./settings.js").setSetting(uid, req.body)
-    res.send("[]")
-})
-
-app.post(`/api/avatar/v2/set`, async (req, res) => {
-    await require("./avatar.js").saveAvatar(uid, req.body)
     res.send("[]")
 })
 
