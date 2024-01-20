@@ -107,6 +107,7 @@ async function admin() {
                         switch(err.message) {
                             case "jwt expired": {err_msg = `The token you have provided has expired.`}
                             case "invalid signature": {err_msg = `The token you have provided has an invalid signature.`}
+                            case "jwt malformed": {err_msg = `The token you have provided is not a valid JWT Token.`}
                         }
                         return console.log(`Something bad happened! ${err_msg}`)
                     }
