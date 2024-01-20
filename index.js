@@ -95,7 +95,7 @@ To read this message again, Delete the file ".first_run" in the root directory o
 	}
 
 	//start the server
-    require('./src/server.js').start()
+    require('./src/server.js')
 
 	webhookMessage(0, "")
 }

@@ -33,21 +33,7 @@ const ResponseResults = {
     ChatMessageReceived: 90
 };
 
-function serve(server) {
-    const wss = new WebSocket.Server({ server });
 
-    wss.on('connection', async (ws) => {
-        log(LogType.Debug, "WS: A client connected!")
-
-        ws.on('message', async (data) => {
-            ws.send(await processRequest(data));
-        });
-
-        ws.on('close', async (ws) => {
-            log(LogType.Debug, "WS: A client disconnected!")
-        });
-    });
-}
 
 async function processRequest(data) {
     let res;
@@ -89,4 +75,19 @@ async function createResponse(id, data) {
     })
 }
 
-module.exports = { serve }
+function start(server) {
+    const wss = new WebSocket.Server({ server });
+
+    wss.on('connection', async (ws) => {
+        log(LogType.Debug, "WS: A client connected!")
+
+        ws.on('message', async (data) => {
+            ws.send(await processRequest(data));
+        });
+
+        ws.on('close', async (ws) => {
+            log(LogType.Debug, "WS: A client disconnected!")
+        });
+    });
+}
+module.exports = { start }
