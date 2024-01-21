@@ -21,9 +21,6 @@ if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
-// define template vars for userid and platform
-let uid = 0, plat = 0;
-
 //Authentication
 const authenticateToken = async (req, res, next) => {
     //Add lunarrec version header
@@ -60,7 +57,6 @@ const authenticateToken = async (req, res, next) => {
     //old build mode. see why it's insecure now?
     try {
         if(allow2016AndEarly2017 && Buffer.from(token).toString('base64') === "recroom@gmail.com:recnet87") {
-            uid = req.headers['x-rec-room-profile']
             req.uid = req.headers['x-rec-room-profile']
             return next();
         }
@@ -70,10 +66,6 @@ const authenticateToken = async (req, res, next) => {
       if (err) {
         return res.sendStatus(403); // Forbidden
       }
-      uid = decoded.PlayerId
-      plat = decoded.PlatformId
-
-      //Move the definitions for uid and plat into the request itself, better for when we move to routes
       req.uid = decoded.PlayerId
       req.plat = decoded.PlatformId
       next();
