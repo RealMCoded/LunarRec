@@ -123,6 +123,7 @@ app.get('/api/stats', async (req, res) => {
 app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/ requests
 app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/ requests
 app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/ requests
+app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/ requests
 
 /**
  * GET REQUESTS
@@ -154,18 +155,13 @@ app.get('/api/config/v1/amplitude', (req, res) => {
 })
 
 app.get('/api/PlayerReporting/v1/moderationBlockDetails', async (req, res) => {
-    let modstat = await datamanager.getModerationStatus(uid)
+    let modstat = await datamanager.getModerationStatus(req.uid)
     console.log(modstat)
     if (modstat.isBanned) {
         res.send(JSON.stringify({"ReportCategory":1,"Duration":600,"GameSessionId":-2000,"Message":`Moderator note: "${modstat.data.reason}".\nContact instance host to appeal`}))
     } else {
         res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
     }
-})
-
-app.get(`/api/settings/v2`, async (req, res) => {
-    let body = await require("./settings.js").loadSettings(uid)
-    res.send(body)
 })
 
 app.get('/api/equipment/v1/getUnlocked', (req, res) => {
@@ -218,10 +214,6 @@ app.get('/img/:id', (req, res) => {
  * POST REQUESTS
  */
 
-app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
-    res.send("[]")
-})
-
 app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
     body = req.body.PlatformId
     let accs = await datamanager.getAssociatedAccounts(body)
@@ -244,19 +236,18 @@ app.post('*/api/platformlogin/v*/', async (req, res) => {
     res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
 })
 
-app.post(`/api/settings/v2/set`, async (req, res) => {
-    await require("./settings.js").setSetting(uid, req.body)
-    res.send("[]")
-})
-
 app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
-    const ses = await require("./sessions.js").joinRandom(uid, req.body)
+    const ses = await require("./sessions.js").joinRandom(req.uid, req.body)
     res.send(ses)
 })
 
 app.post(`/api/gamesessions/v2/create`, async (req, res) => {
-    const ses = await require("./sessions.js").create(uid, req.body)
+    const ses = await require("./sessions.js").create(req.uid, req.body)
     res.send(ses)
+})
+
+app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
+    res.send("[]")
 })
 
 const server = app.listen(port, () => {
