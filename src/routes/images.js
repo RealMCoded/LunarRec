@@ -4,6 +4,8 @@ const path = require("path")
 const fs = require("fs")
 const {setPFP, uploadImg, deleteImg} = require("../image.js")
 
+const { customPosters } = require("../../config.json")
+
 /* GET REQUESTS */
 router.get('/v1/profile/:id', (req, res) => {
     try {

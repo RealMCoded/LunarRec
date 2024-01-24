@@ -24,4 +24,8 @@ router.post(`/v2/set`, async (req, res) => {
     res.send("[]")
 })
 
+router.get('/v2/gifts/generate', (req, res) => {
+    res.send("[]")
+})
+
 module.exports = router
