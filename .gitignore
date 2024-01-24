@@ -17,3 +17,6 @@ cdn/rooms/*
 !cdn/rooms/.gitkeep
 cdn/images/*
 !cdn/images/.gitkeep
+
+# misc
+builds/*
