@@ -116,6 +116,8 @@ app.use("/api/players", require("./routes/players.js")) // http://localhost/api/
 app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/ requests
 app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/ requests
 app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/ requests
+app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/ requests
+app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/ requests
 
 /**
  * GET REQUESTS
@@ -132,10 +134,6 @@ app.get('/api/versioncheck/*', (req, res) => {
     } else {
         res.send("{\"ValidVersion\":true}")
     }
-})
-
-app.get(`/api/gamesessions/v1/*`, async (req, res) => {
-    res.send("[]")
 })
 
 app.get(`/api/events/v*/list`, async (req, res) => {
@@ -162,10 +160,6 @@ app.get('/api/equipment/v1/getUnlocked', (req, res) => {
 
 app.get('/api/activities/charades/v1/words', (req, res) => {
     res.send(require("./charades.js").generateCharades())
-})
-
-app.get('/api/relationships/v2/get', (req, res) => {
-    res.send("[]")
 })
 
 app.get('/api/messages/v2/get', (req, res) => {
@@ -226,16 +220,6 @@ app.post('*/api/platformlogin/v*/', async (req, res) => {
 
     const token = jwt.sign(req.body, token_signature, {expiresIn: "12h"});
     res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
-})
-
-app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
-    const ses = await require("./sessions.js").joinRandom(req.uid, req.body)
-    res.send(ses)
-})
-
-app.post(`/api/gamesessions/v2/create`, async (req, res) => {
-    const ses = await require("./sessions.js").create(req.uid, req.body)
-    res.send(ses)
 })
 
 app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
