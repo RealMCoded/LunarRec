@@ -1,6 +1,7 @@
 //Get variables from other files
 const { targetVersion, port, serverAddress, instance_info, logConnections, customPosters, token_signature, allow2016AndEarly2017 } = require("../config.json")
 const { version } = require("../package.json")
+const { LevelProgressionMaps, DailyObjectives } = require("../shared-items/configv2.json")
 
 //Import Modules
 const express = require('express') //express.js - the web server
@@ -77,11 +78,13 @@ const authenticateToken = async (req, res, next) => {
     TODO: Move routes to a different file
 */
 
+//Debug logging
 app.use((req, res, next) => {
     log(LogType.Debug, `[${req.method.toUpperCase()} "${req.url}"] API Request: ${JSON.stringify(req.body)}`)
     next()
 })
 
+//Use authentication
 app.use(authenticateToken);
 
 //Name Server
@@ -112,12 +115,12 @@ app.get('/api/stats', async (req, res) => {
 })
 
 /* ROUTES */
-app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/ requests
-app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/ requests
-app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/ requests
-app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/ requests
-app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/ requests
-app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/ requests
+app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/
+app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/
+app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/
+app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/
+app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/
+app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/
 
 /**
  * GET REQUESTS
@@ -170,12 +173,12 @@ app.get('/api/config/v2', (req, res) => {
     res.send(JSON.stringify({
         MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
         CdnBaseUri: `${serverAddress}`,
-        LevelProgressionMaps:[{"Level":0,"RequiredXp":1},{"Level":1,"RequiredXp":2},{"Level":2,"RequiredXp":3},{"Level":3,"RequiredXp":4},{"Level":4,"RequiredXp":5},{"Level":5,"RequiredXp":6},{"Level":6,"RequiredXp":7},{"Level":7,"RequiredXp":8},{"Level":8,"RequiredXp":9},{"Level":9,"RequiredXp":10},{"Level":10,"RequiredXp":11},{"Level":11,"RequiredXp":12},{"Level":12,"RequiredXp":13},{"Level":13,"RequiredXp":14},{"Level":14,"RequiredXp":15},{"Level":15,"RequiredXp":16},{"Level":16,"RequiredXp":17},{"Level":17,"RequiredXp":18},{"Level":18,"RequiredXp":19},{"Level":19,"RequiredXp":20},{"Level":20,"RequiredXp":21}],
+        LevelProgressionMaps,
         MatchmakingParams:{
             PreferFullRoomsFrequency: 1,
             PreferEmptyRoomsFrequency: 0
         },
-        DailyObjectives: [[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}]],
+        DailyObjectives,
         ConfigTable: [{"Key":"Gift.DropChance","Value":"0.5"},{"Key":"Gift.XP","Value":"0.5"}],
         PhotonConfig: {"CloudRegion":"us","CrcCheckEnabled":false,"EnableServerTracingAfterDisconnect":false}
     }))
