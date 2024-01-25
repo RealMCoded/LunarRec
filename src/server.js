@@ -75,7 +75,7 @@ const authenticateToken = async (req, res, next) => {
 
 /*
     Server code starts here.
-    TODO: Move routes to a different file
+    Smaller requests are still stored here, but most of the requests are stored in the /routes folder.
 */
 
 //Debug logging
