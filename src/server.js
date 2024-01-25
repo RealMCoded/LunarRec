@@ -1,6 +1,7 @@
 //Get variables from other files
 const { targetVersion, port, serverAddress, instance_info, logConnections, customPosters, token_signature, allow2016AndEarly2017 } = require("../config.json")
 const { version } = require("../package.json")
+const { LevelProgressionMaps, DailyObjectives } = require("../shared-items/configv2.json")
 
 //Import Modules
 const express = require('express') //express.js - the web server
@@ -21,9 +22,6 @@ if (logConnections) app.use(morgan(log_raw(LogType.API, `:remote-addr :method ":
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
-// define template vars for userid and platform
-let uid = 0, plat = 0;
-
 //Authentication
 const authenticateToken = async (req, res, next) => {
     //Add lunarrec version header
@@ -32,7 +30,7 @@ const authenticateToken = async (req, res, next) => {
     // Define an array of endpoints that do not require authorization
     const loginEndpoints = [
         /^\/$/,
-        /^\/img\/\d+$/,
+        /^\/img\/.+$/,
         /^\/api\/stats/,
         /^\/api\/versioncheck\//,
         /^\/api\/config\/v\d+$/,
@@ -60,7 +58,7 @@ const authenticateToken = async (req, res, next) => {
     //old build mode. see why it's insecure now?
     try {
         if(allow2016AndEarly2017 && Buffer.from(token).toString('base64') === "recroom@gmail.com:recnet87") {
-            uid = req.headers['x-rec-room-profile']
+            req.uid = req.headers['x-rec-room-profile']
             return next();
         }
     } catch(e) {}
@@ -69,22 +67,24 @@ const authenticateToken = async (req, res, next) => {
       if (err) {
         return res.sendStatus(403); // Forbidden
       }
-      uid = decoded.PlayerId
-      plat = decoded.PlatformId
+      req.uid = decoded.PlayerId
+      req.plat = decoded.PlatformId
       next();
     });
 };
 
 /*
     Server code starts here.
-    TODO: Move routes to a different file
+    Smaller requests are still stored here, but most of the requests are stored in the /routes folder.
 */
 
+//Debug logging
 app.use((req, res, next) => {
     log(LogType.Debug, `[${req.method.toUpperCase()} "${req.url}"] API Request: ${JSON.stringify(req.body)}`)
     next()
 })
 
+//Use authentication
 app.use(authenticateToken);
 
 //Name Server
@@ -114,6 +114,14 @@ app.get('/api/stats', async (req, res) => {
     })
 })
 
+/* ROUTES */
+app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/
+app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/
+app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/
+app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/
+app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/
+app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/
+
 /**
  * GET REQUESTS
  */
@@ -131,41 +139,8 @@ app.get('/api/versioncheck/*', (req, res) => {
     }
 })
 
-app.get(`/api/players/v1/*`, async (req, res) => {
-    let body = await datamanager.getProfile(uid)
-    body = JSON.parse(body)
-    res.send(JSON.stringify(body))
-})
-
-app.get(`/api/players/v2/search`, async (req, res) => {
-    console.log(req.query)
-    let body = await playerSearch(req.query.name)
-    console.log(body)
-    res.send(JSON.stringify(body))
-})
-
-app.get(`/api/players/v1/list`, async (req, res) => {
-    res.send("[]")
-})
-
-app.get(`/api/players/v1/blockduration`, async (req, res) => {
-    res.send("[]")
-})
-
-app.get(`/api/gamesessions/v1/*`, async (req, res) => {
-    res.send("[]")
-})
-
 app.get(`/api/events/v*/list`, async (req, res) => {
     res.send("[]")
-})
-
-app.get(`/api/players/v1/phonelastfour`, async (req, res) => {
-    res.send("{\"PhoneNumber\":\"PHONE NUMBERS ARE NOT SUPPORTED!\"}")
-})
-
-app.get(`/api/players/v1/search/*`, async (req, res) => {
-    res.sendStatus(404)
 })
 
 app.get('/api/config/v1/amplitude', (req, res) => {
@@ -173,27 +148,13 @@ app.get('/api/config/v1/amplitude', (req, res) => {
 })
 
 app.get('/api/PlayerReporting/v1/moderationBlockDetails', async (req, res) => {
-    let modstat = await datamanager.getModerationStatus(uid)
+    let modstat = await datamanager.getModerationStatus(req.uid)
     console.log(modstat)
     if (modstat.isBanned) {
         res.send(JSON.stringify({"ReportCategory":1,"Duration":600,"GameSessionId":-2000,"Message":`Moderator note: "${modstat.data.reason}".\nContact instance host to appeal`}))
     } else {
         res.send(JSON.stringify({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
     }
-})
-
-app.get(`/api/avatar/v2`, async (req, res) => {
-    let body = await require("./avatar.js").loadAvatar(uid)
-    res.send(body)
-})
-
-app.get(`/api/avatar/v3/items`, async (req, res) => {
-    res.sendFile(path.resolve(`${__dirname}/../shared-items/avataritems.txt`))
-})
-
-app.get(`/api/settings/v2`, async (req, res) => {
-    let body = await require("./settings.js").loadSettings(uid)
-    res.send(body)
 })
 
 app.get('/api/equipment/v1/getUnlocked', (req, res) => {
@@ -204,14 +165,6 @@ app.get('/api/activities/charades/v1/words', (req, res) => {
     res.send(require("./charades.js").generateCharades())
 })
 
-app.get('/api/avatar/v2/gifts', (req, res) => {
-    res.send("[]")
-})
-
-app.get('/api/relationships/v2/get', (req, res) => {
-    res.send("[]")
-})
-
 app.get('/api/messages/v2/get', (req, res) => {
     res.send("[]")
 })
@@ -220,12 +173,12 @@ app.get('/api/config/v2', (req, res) => {
     res.send(JSON.stringify({
         MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
         CdnBaseUri: `${serverAddress}`,
-        LevelProgressionMaps:[{"Level":0,"RequiredXp":1},{"Level":1,"RequiredXp":2},{"Level":2,"RequiredXp":3},{"Level":3,"RequiredXp":4},{"Level":4,"RequiredXp":5},{"Level":5,"RequiredXp":6},{"Level":6,"RequiredXp":7},{"Level":7,"RequiredXp":8},{"Level":8,"RequiredXp":9},{"Level":9,"RequiredXp":10},{"Level":10,"RequiredXp":11},{"Level":11,"RequiredXp":12},{"Level":12,"RequiredXp":13},{"Level":13,"RequiredXp":14},{"Level":14,"RequiredXp":15},{"Level":15,"RequiredXp":16},{"Level":16,"RequiredXp":17},{"Level":17,"RequiredXp":18},{"Level":18,"RequiredXp":19},{"Level":19,"RequiredXp":20},{"Level":20,"RequiredXp":21}],
+        LevelProgressionMaps,
         MatchmakingParams:{
             PreferFullRoomsFrequency: 1,
             PreferEmptyRoomsFrequency: 0
         },
-        DailyObjectives: [[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}],[{"type":20,"score":1},{"type":21,"score":1},{"type":22,"score":1}]],
+        DailyObjectives,
         ConfigTable: [{"Key":"Gift.DropChance","Value":"0.5"},{"Key":"Gift.XP","Value":"0.5"}],
         PhotonConfig: {"CloudRegion":"us","CrcCheckEnabled":false,"EnableServerTracingAfterDisconnect":false}
     }))
@@ -246,56 +199,9 @@ app.get('/img/:id', (req, res) => {
     }
 })
 
-app.get('/api/images/v1/profile/:id', (req, res) => {
-    try {
-        const id = req.params.id
-        let filedir;
-        filedir = `${__dirname}/../cdn/profileImages/${id}.png`;
-        if (fs.existsSync(filedir)) {
-            res.sendFile(path.resolve(filedir))
-        } else {
-            res.sendStatus(404)
-        }
-    } catch(e) {
-        res.sendStatus(500)
-    }
-})
-
-app.get('/api/images/v1/named', (req, res) => {
-    if (customPosters) {
-        const filedir = `${__dirname}/../cdn/posters/${req.query.img}.png`
-        if (fs.existsSync(filedir)) {
-            res.sendFile(path.resolve(filedir))
-        } else {
-            res.sendStatus(404)
-        }
-    } else {
-        res.sendStatus(404)
-    }
-})
-
 /**
  * POST REQUESTS
  */
-
-app.post(`/api/players/v1/getorcreate`, async (req, res) => {
-    if (allow2016AndEarly2017) {
-        body = req.body.PlatformId
-        let accs = await datamanager.getAssociatedAccounts(body)
-        if (accs.length == 0) {
-            let acc = await datamanager.createAccount(`LunarRecUser_${await getPlayerTotal()+1}`, body)
-            accs = [JSON.parse(acc)]
-        }
-
-        res.send(JSON.stringify(accs[0]))
-    } else {
-        res.sendStatus(405)
-    }
-})
-
-app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
-    res.send("[]")
-})
 
 app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
     body = req.body.PlatformId
@@ -305,7 +211,7 @@ app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
         accs = [JSON.parse(acc)]
     }
 
-    res.send(JSON.stringify([accs[0]]))
+    res.send(JSON.stringify(accs))
 })
 
 app.post('*/api/platformlogin/v*/', async (req, res) => {
@@ -319,60 +225,8 @@ app.post('*/api/platformlogin/v*/', async (req, res) => {
     res.send(JSON.stringify({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
 })
 
-app.post('/api/images/v*/profile', async (req, res) => {
-    await require("./image.js").setPFP(uid, req)
-    res.send(JSON.stringify({ImageName: uid}))
-})
-
-app.post(`/api/players/v2/phone`, async (req, res) => {
-    res.send(JSON.stringify({Success:false, Message:"Phone Numbers are not supported!"}))
-})
-
-app.post('/api/images/v*/uploadtransient', async (req, res) => {
-    var img = await require("./image.js").uploadImg(true, uid, req)
-    res.send(img)
-})
-
-app.post('/api/images/v*/deletetransient', async (req, res) => {
-    await require("./image.js").deleteImg(req)
-    res.sendStatus(200)
-})
-
-app.post(`/api/settings/v2/set`, async (req, res) => {
-    await require("./settings.js").setSetting(uid, req.body)
+app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
     res.send("[]")
-})
-
-app.post(`/api/players/v*/createProfile`, async (req, res) => {
-    let acc = await datamanager.createAccount(req.body.Name, plat)
-    res.send(acc)
-})
-
-app.post(`/api/players/v2/displayname`, async (req, res) => {
-    let newname = await datamanager.setName(uid, req.body)
-    res.send(JSON.stringify(newname))
-})
-
-app.post(`/api/avatar/v2/set`, async (req, res) => {
-    await require("./avatar.js").saveAvatar(uid, req.body)
-    res.send("[]")
-})
-
-app.post(`/api/players/v1/list`, async (req, res) => {
-    console.log(req.body)
-    let resp = await getPlayerArray(req.body)
-    console.log(resp)
-    res.send(JSON.stringify(resp))
-})
-
-app.post(`/api/gamesessions/v2/joinrandom`, async (req, res) => {
-    const ses = await require("./sessions.js").joinRandom(uid, req.body)
-    res.send(ses)
-})
-
-app.post(`/api/gamesessions/v2/create`, async (req, res) => {
-    const ses = await require("./sessions.js").create(uid, req.body)
-    res.send(ses)
 })
 
 const server = app.listen(port, () => {
