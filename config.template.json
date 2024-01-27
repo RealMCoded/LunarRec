@@ -29,5 +29,9 @@
             "type": "PLAYING",
             "activity": "LunarRec"
         }
+    },
+    "rateLimits":{
+        "maxRequests": 50,
+        "window": 60000
     }
 }

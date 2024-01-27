@@ -14,6 +14,7 @@
 | `token_signature`       | `string`                              | The signature used for your JSON Web Tokens.                                                                                         | LunarRec_ReplaceMeWithSomethingElsePlz |
 | `webhook`               |                                       | Read the [Webhook section](#webhook) for details.                                                                                                |                                        |
 | `discord_bot`           |                                       | Read the [Discord Bot section](#discord-bot) for details.                                                                                            |                                        |
+| `rateLimits`           |                                       | Read the [Rate Limits section](#rate-limits) for details.                                                                                            |                                        |
 
 ## Instance Info
 
@@ -41,3 +42,10 @@
 | `serverID`        | `string`       | The ID of the server your bot will be in.                                                                                               | `"1234567890"`                               |
 | `instanceOwnerID` | `string`       | Your Discord account ID.                                                                                                                | `"284804878604435476"`                       |
 | `status`          | `object`       | The playing status of your bot. `"type"` is a string can be `"PLAYING"`, `"WATCHING"`, `"LISTENING"`, and `"COMPETING"`. `activity` is a string and can be anything. | `{"type":"PLAYING", "activity": "LunarRec"}` |
+
+# Rate Limits
+
+| Kay Name      | Expected Value | Description                                                                              | Default Value |
+|---------------|----------------|------------------------------------------------------------------------------------------|---------------|
+| `maxRequests` | `int`          | The max number of requests to allow during the `window` before rate limiting the client. | `50`          |
+| `window`      | `int`          | Time frame for which requests are checked/remembered.                                    | `60000`       |

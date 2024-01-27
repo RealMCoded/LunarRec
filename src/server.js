@@ -1,11 +1,12 @@
 //Get variables from other files
-const { targetVersion, port, serverAddress, instance_info, logConnections, customPosters, token_signature, allow2016AndEarly2017 } = require("../config.json")
+const { targetVersion, port, serverAddress, instance_info, logConnections, token_signature, allow2016AndEarly2017, rateLimits } = require("../config.json")
 const { version } = require("../package.json")
 const { LevelProgressionMaps, DailyObjectives } = require("../shared-items/configv2.json")
 
 //Import Modules
 const express = require('express') //express.js - the web server
 const morgan = require('morgan') //for webserver output
+const { rateLimit } = require("express-rate-limit")
 const bodyParser = require("body-parser")
 const jwt = require("jsonwebtoken")
 const app = express()
@@ -73,6 +74,14 @@ const authenticateToken = async (req, res, next) => {
     });
 };
 
+//Rate limiting, Taken from the npm page and tweaked a bit
+const limiter = rateLimit({
+	windowMs: rateLimits.window,
+	limit: rateLimits.maxRequests,
+	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+})
+
 /*
     Server code starts here.
     Smaller requests are still stored here, but most of the requests are stored in the /routes folder.
@@ -84,8 +93,9 @@ app.use((req, res, next) => {
     next()
 })
 
-//Use authentication
+//Use authentication and rate limiter
 app.use(authenticateToken);
+app.use(limiter)
 
 //Name Server
 app.get('/', async (req, res) => {
