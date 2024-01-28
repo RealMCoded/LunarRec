@@ -25,10 +25,6 @@ router.get('/', async (req, res) => {
     })
 })
 
-router.get('/test', (req, res) => {
-    res.send("unauthorized endpoint works")
-})
-
 /* POST REQUESTS */
 
 
