@@ -97,6 +97,14 @@ app.use((req, res, next) => {
 app.use(authenticateToken);
 app.use(limiter)
 
+/* ROUTES */
+app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/
+app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/
+app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/
+app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/
+app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/
+app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/
+
 //Name Server
 app.get('/', async (req, res) => {
     res.send(JSON.stringify({NOTE: "LunarRec Name Server. If IPs are wrong check your config.", API:`${serverAddress}`, Notifications:`${serverAddress}`, Images:`${serverAddress}/img`}))
@@ -123,14 +131,6 @@ app.get('/api/stats', async (req, res) => {
         }
     })
 })
-
-/* ROUTES */
-app.use("/api/players", require("./routes/players.js")) // http://localhost/api/players/
-app.use("/api/avatar", require("./routes/avatar.js")) // http://localhost/api/avatar/
-app.use("/api/images", require("./routes/images.js")) // http://localhost/api/images/
-app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/
-app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/
-app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/
 
 /**
  * GET REQUESTS
