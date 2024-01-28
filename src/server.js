@@ -1,5 +1,5 @@
 //Get variables from other files
-const { targetVersion, port, serverAddress, instance_info, logConnections, token_signature, allow2016AndEarly2017, rateLimits } = require("../config.json")
+const { targetVersion, port, serverAddress, logConnections, token_signature, allow2016AndEarly2017, rateLimits } = require("../config.json")
 const { version } = require("../package.json")
 const { LevelProgressionMaps, DailyObjectives } = require("../shared-items/configv2.json")
 
@@ -15,7 +15,7 @@ const fs = require("fs")
 
 //Import custom modules
 const datamanager = require("./datamanager.js")
-const {getPlayerTotal, getOnlinePlayers, getPlayerArray, playerSearch} = require("./players.js")
+const { getPlayerTotal } = require("./players.js")
 const { LogType, log, log_raw } = require("./logger.js")
 
 //enable loggings and JSON encoded bodies
@@ -29,10 +29,10 @@ const authenticateToken = async (req, res, next) => {
     res.set('x-LunarRec-Version', version)
 
     // Define an array of endpoints that do not require authorization
-    const loginEndpoints = [
+    const noAuthRequired = [
         /^\/$/,
         /^\/img\/.+$/,
-        /^\/api\/stats/,
+        /^\/instance\//,
         /^\/api\/versioncheck\//,
         /^\/api\/config\/v\d+$/,
         /^\/api\/platformlogin\/v\d+$/,
@@ -42,7 +42,7 @@ const authenticateToken = async (req, res, next) => {
         /^\/api\/players\/v\d+\/getorcreate$/,
     ];
     
-    for (const endpointRegex of loginEndpoints) {
+    for (const endpointRegex of noAuthRequired) {
         if (endpointRegex.test(req.path)) {
             return next(); // Skip authentication for matched endpoints
         }
@@ -104,37 +104,14 @@ app.use("/api/images", require("./routes/images.js")) // http://localhost/api/im
 app.use("/api/settings", require("./routes/settings.js")) // http://localhost/api/settings/
 app.use("/api/gamesessions", require("./routes/gamesessions.js")) // http://localhost/api/gamesessions/
 app.use("/api/relationships", require("./routes/relationships.js")) // http://localhost/api/relationships/
+app.use("/instance", require("./routes/lunarrec.js")) // http://localhost/instance
+
+/* GET REQUESTS */
 
 //Name Server
 app.get('/', async (req, res) => {
     res.send(JSON.stringify({NOTE: "LunarRec Name Server. If IPs are wrong check your config.", API:`${serverAddress}`, Notifications:`${serverAddress}`, Images:`${serverAddress}/img`}))
 })
-
-//Misc server info
-app.get('/api/stats', async (req, res) => {
-    const start = Date.now();
-    res.json({
-        name: instance_info.name,
-        description: instance_info.description,
-        owner: instance_info.owner,
-        website: instance_info.website,
-        targetVersion: targetVersion,
-        ping: undefined, //TODO: Calculate Ping
-        secure: allow2016AndEarly2017,
-        users:{
-            registered: await getPlayerTotal(),
-            online: await getOnlinePlayers()
-        },
-        lunarrec_server_version:{
-            version:version,
-            commit:process.commit
-        }
-    })
-})
-
-/**
- * GET REQUESTS
- */
 
 app.get('/api/versioncheck/*', (req, res) => {
     let rrversion = req.headers['x-rec-room-version']
@@ -209,9 +186,7 @@ app.get('/img/:id', (req, res) => {
     }
 })
 
-/**
- * POST REQUESTS
- */
+/* POST REQUESTS */
 
 app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
     body = req.body.PlatformId
