@@ -1,5 +1,5 @@
 const fs = require("fs")
-const randomstring = require("randomstring");
+const { randomString } = require("../util.js");
 
 async function setPFP(uid, req){
     var bufferHeader=0;
@@ -29,7 +29,7 @@ async function setPFP(uid, req){
 async function uploadImg(transient, uid, req){
     var bufferHeader=0;
     //var img_name = transient ? `TRANSIENT_${uid}` : randomstring.generate(10)
-    var img_name = "IMG_" + randomstring.generate(15)
+    var img_name = "IMG_" + randomString(15)
 
     var f=fs.createWriteStream(`./cdn/images/${img_name}.png`);
 

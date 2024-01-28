@@ -5,6 +5,13 @@ function random(number) {
     return Math.floor(Math.random() * number)
 }
 
+function randomString(length) {
+    var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+
 function makeUserJSONFromDB(userdata) {
     return JSON.stringify({
         "Id": userdata.id,
@@ -63,4 +70,4 @@ function clearImages() {
     log(LogType.Info, "Cleared!")
 }
 
-module.exports = { random, makeUserJSONFromDB, resetServerData, clearImages }
+module.exports = { random, randomString, makeUserJSONFromDB, resetServerData, clearImages }
