@@ -1,10 +1,20 @@
 const { LogType, log } = require("./src/logger.js")
 const fs = require("node:fs")
 
+/**
+ * Generates a random number between 0 and the provided number
+ * @param {*} number 
+ * @returns int
+ */
 function random(number) {
     return Math.floor(Math.random() * number)
 }
 
+/**
+ * Generates a random string of the provided length
+ * @param {*} length 
+ * @returns string
+ */
 function randomString(length) {
     var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var result = '';
