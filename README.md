@@ -22,7 +22,9 @@ This project is also still in early development stages and is **not** production
 
 - Fast & Efficient (depending on the hardware).
 
-- Uses a SQLite database to store user data.
+- Uses SQLite to store user data.
+
+- Proper rate limiting 
 
 - Uses [JSON Web Tokens](https://jwt.io/) for user authentication (can be disabled for older versions).
 
@@ -44,7 +46,9 @@ This project is also still in early development stages and is **not** production
 
 - Player searching
 
-- Bans*
+- Multi-Account support* (creation works, deletion doesn't)
+
+- Bans* (must be done from admin console)
 
 ### What doesn't work (as of now)
 
