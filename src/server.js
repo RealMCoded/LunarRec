@@ -221,5 +221,5 @@ const server = app.listen(port, () => {
         }
     })
     log(LogType.Info, `Server started on port ${port}`)
-    require("./ws.js").start(server)
+    require("./websocket.js").start(server)
 })
