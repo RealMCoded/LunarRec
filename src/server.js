@@ -27,6 +27,7 @@ app.use(express.urlencoded({ extended: true })); // support encoded bodies
 const authenticateToken = async (req, res, next) => {
     //Add lunarrec version header
     res.set('x-LunarRec-Version', version)
+    res.set('Content-Type', 'application/json');
 
     // Define an array of endpoints that do not require authorization
     const noAuthRequired = [
