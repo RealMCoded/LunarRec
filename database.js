@@ -21,7 +21,8 @@ const users = sequelize.define('users', {
   },
   settings:{
     type: Sequelize.STRING,
-    defaultValue: JSON.stringify([{"Key":"MOD_BLOCKED_TIME","Value":"0"},{"Key":"MOD_BLOCKED_DURATION","Value":"0"},{"Key":"PlayerSessionCount","Value":"0"},{"Key":"ShowRoomCenter","Value":"1"},{"Key":"QualitySettings","Value":"3"},{"Key":"Recroom.OOBE","Value":"100"},{"Key":"VoiceFilter","Value":"0"},{"Key":"VIGNETTED_TELEPORT_ENABLED","Value":"0"},{"Key":"CONTINUOUS_ROTATION_MODE","Value":"0"},{"Key":"ROTATION_INCREMENT","Value":"0"},{"Key":"ROTATE_IN_PLACE_ENABLED","Value":"0"},{"Key":"TeleportBuffer","Value":"0"},{"Key":"VoiceChat","Value":"1"},{"Key":"PersonalBubble","Value":"0"},{"Key":"ShowNames","Value":"1"},{"Key":"H.264 plugin","Value":"1"}])
+    defaultValue: JSON.stringify([{"Key":"Recroom.OOBE","Value":"100"}])
+    //defaultValue: JSON.stringify([{"Key":"MOD_BLOCKED_TIME","Value":"0"},{"Key":"MOD_BLOCKED_DURATION","Value":"0"},{"Key":"PlayerSessionCount","Value":"0"},{"Key":"ShowRoomCenter","Value":"1"},{"Key":"QualitySettings","Value":"3"},{"Key":"Recroom.OOBE","Value":"100"},{"Key":"VoiceFilter","Value":"0"},{"Key":"VIGNETTED_TELEPORT_ENABLED","Value":"0"},{"Key":"CONTINUOUS_ROTATION_MODE","Value":"0"},{"Key":"ROTATION_INCREMENT","Value":"0"},{"Key":"ROTATE_IN_PLACE_ENABLED","Value":"0"},{"Key":"TeleportBuffer","Value":"0"},{"Key":"VoiceChat","Value":"1"},{"Key":"PersonalBubble","Value":"0"},{"Key":"ShowNames","Value":"1"},{"Key":"H.264 plugin","Value":"1"}])
   },
   avatar:{
     type: Sequelize.STRING,
