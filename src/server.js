@@ -111,7 +111,7 @@ app.use("/instance", require("./routes/lunarrec.js")) // http://localhost/instan
 
 //Name Server
 app.get('/', async (req, res) => {
-    res.json(({NOTE: "LunarRec Name Server. If IPs are wrong check your config.", API:`${serverAddress}`, Notifications:`${serverAddress}`, Images:`${serverAddress}/img`}))
+    res.json({NOTE: "LunarRec Name Server. If IPs are wrong check your config.", API:`${serverAddress}`, Notifications:`${serverAddress}`, Images:`${serverAddress}/img`})
 })
 
 app.get('/api/versioncheck/*', (req, res) => {
@@ -132,16 +132,16 @@ app.get(`/api/events/v*/list`, async (req, res) => {
 })
 
 app.get('/api/config/v1/amplitude', (req, res) => {
-    res.json(({AmplitudeKey: "NoKeyProvided"}))
+    res.json({AmplitudeKey: "NoKeyProvided"})
 })
 
 app.get('/api/PlayerReporting/v1/moderationBlockDetails', async (req, res) => {
     let modstat = await datamanager.getModerationStatus(req.uid)
     console.log(modstat)
     if (modstat.isBanned) {
-        res.json(({"ReportCategory":1,"Duration":600,"GameSessionId":-2000,"Message":`Moderator note: "${modstat.data.reason}".\nContact instance host to appeal`}))
+        res.json({"ReportCategory":1,"Duration":600,"GameSessionId":-2000,"Message":`Moderator note: "${modstat.data.reason}".\nContact instance host to appeal`})
     } else {
-        res.json(({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""}))
+        res.json({"ReportCategory":0,"Duration":0,"GameSessionId":0,"Message":""})
     }
 })
 
@@ -158,7 +158,7 @@ app.get('/api/messages/v2/get', (req, res) => {
 })
 
 app.get('/api/config/v2', (req, res) => {
-    res.json(({
+    res.json({
         MessageOfTheDay: fs.readFileSync("./shared-items/motd.txt", 'utf8'),
         CdnBaseUri: `${serverAddress}`,
         LevelProgressionMaps,
@@ -169,7 +169,7 @@ app.get('/api/config/v2', (req, res) => {
         DailyObjectives,
         ConfigTable: [{"Key":"Gift.DropChance","Value":"0.5"},{"Key":"Gift.XP","Value":"0.5"}],
         PhotonConfig: {"CloudRegion":"us","CrcCheckEnabled":false,"EnableServerTracingAfterDisconnect":false}
-    }))
+    })
 })
 
 app.get('/img/:id', (req, res) => {
@@ -197,7 +197,7 @@ app.post('*/api/platformlogin/v*/profiles', async (req, res) => {
         accs = [JSON.parse(acc)]
     }
 
-    res.json((accs))
+    res.json(accs)
 })
 
 app.post('*/api/platformlogin/v*/', async (req, res) => {
@@ -208,7 +208,7 @@ app.post('*/api/platformlogin/v*/', async (req, res) => {
     delete body_JWT.DeviceId
 
     const token = jwt.sign(req.body, token_signature, {expiresIn: "12h"});
-    res.json(({Token: token, PlayerId:body_JWT.PlayerId, Error: ""}))
+    res.json({Token: token, PlayerId:body_JWT.PlayerId, Error: ""})
 })
 
 app.post(`/api/PlayerSubscriptions/v1/init`, async (req, res) => {
