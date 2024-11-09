@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const datamanager = require("../datamanager.js")
 const {getPlayerTotal, getOnlinePlayers, getPlayerArray, playerSearch} = require("../players.js")
-const { allow2016AndEarly2017 } = require("./config.json")
+const { allow2016AndEarly2017 } = require(".../config.json")
 
 /* GET REQUESTS */
 router.get(`/v2/search`, async (req, res) => {
