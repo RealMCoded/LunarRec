@@ -1,3 +1,11 @@
+# Notice
+
+Work on LunarRec is mostly on a hiatus right now. 
+
+I might fix some smaller bugs, but for the most part I might not do any big updates for a while.
+
+---
+
 <div align="center">
 <img src="./readme/logo_text.png">
 </div>
