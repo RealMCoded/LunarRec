@@ -1,3 +1,4 @@
+const { allow2016AndEarly2017  } = require("../../config.json")
 const db = process.db.users
 const sequelize = require(`sequelize`)
 const { Op } = require('sequelize');
