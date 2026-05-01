@@ -2,7 +2,7 @@
 
 Check out [Coach's Time Machine](https://github.com/CoachsTimeMachine) for other servers I am working on.
 
-This repo is now for archival purposes only. **Don't use this server publicly!**
+This repo is now for archival purposes only. **Please do not use this server at all.**
 
 ---
 
