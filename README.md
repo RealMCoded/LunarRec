@@ -1,8 +1,8 @@
 # LunarRec is archived!
 
-Check out [Coach's Time Machine](https://github.com/CoachsTimeMachine) for other servers I am working on.
+Check out [CoachsTimeMachine/server.2017M](https://github.com/CoachsTimeMachine/server.2017M), it is the "continuation" of what LunarRec was supposed to be.
 
-This repo is now for archival purposes only. **Please do not use this server at all.**
+This repo still exists for archival purposes only. **Please do not use this server at all.**
 
 ---
 
